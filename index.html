@@ -41,12 +41,7 @@ a{color:var(--grn);text-decoration:none}
 .picked-line{max-width:720px;margin:0 auto;padding:0 16px 9px;font-size:12px;color:var(--amber);display:none}
 .picked-line.on{display:block}
 
-/* hero */
-.hero{max-width:720px;margin:12px auto 2px;padding:0 16px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
-.hero::-webkit-scrollbar{display:none}
-.hero img{height:150px;width:225px;object-fit:cover;border-radius:18px;flex:0 0 auto}
-
-main{max-width:720px;margin:0 auto;padding:4px 16px 80px}
+main{max-width:720px;margin:0 auto;padding:8px 16px 80px}
 .day{display:none}
 .day.on{display:block;animation:fade .2s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -54,8 +49,8 @@ main{max-width:720px;margin:0 auto;padding:4px 16px 80px}
 .date-badge{flex:0 0 auto;width:50px;height:50px;border-radius:15px;background:linear-gradient(150deg,var(--grn),#1d9e63);color:var(--grn-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;box-shadow:0 4px 14px rgba(67,214,143,.22)}
 .date-badge .dow{font-size:10px;text-transform:uppercase;letter-spacing:.7px;opacity:.8;font-weight:700}
 .date-badge .num{font-size:20px;font-weight:800}
-.day-head h2{font-size:17.5px;font-weight:750}
-.day-note{font-size:13px;color:var(--mut);margin:0 2px 14px}
+.day-head h2{font-size:17.5px;font-weight:750;flex:1 1 auto;min-width:0}
+.iday{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line2);color:var(--mut);font-size:13px;font-weight:750;font-style:italic;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center}
 
 /* photo cards */
 .card{position:relative;border-radius:20px;overflow:hidden;margin-bottom:12px;border:1px solid var(--line);cursor:pointer;transition:transform .12s ease,border-color .15s}
@@ -130,7 +125,6 @@ main{max-width:720px;margin:0 auto;padding:4px 16px 80px}
 .sh-links a{font-weight:700}
 .sh-credit{font-size:11px;color:var(--faint);margin-top:8px}
 @media(min-width:640px){
-  .hero img{height:176px;width:264px}
   .card>img{height:225px}
   .sheet-img{height:250px}
 }
@@ -146,8 +140,6 @@ main{max-width:720px;margin:0 auto;padding:4px 16px 80px}
   <nav class="pills" id="pills"></nav>
   <div class="picked-line" id="pickedLine"></div>
 </header>
-
-<div class="hero" id="hero"></div>
 
 <main id="main"></main>
 
@@ -174,7 +166,6 @@ main{max-width:720px;margin:0 auto;padding:4px 16px 80px}
 <script src="photos-b.js"></script>
 <script>
 const IMGS=Object.assign({},IMGS_A,IMGS_B);
-const hero=[['tea-estate','Tea rows over the Nilgiri hills'],['lake','Boats on Ooty Lake'],['doddabetta','View from Doddabetta'],['pykara','Pykara reservoir']];
 
 const days=[
  {id:'go',dow:'Tue',num:'8',chip:'Go',title:'Night bus from Bengaluru',
@@ -335,13 +326,10 @@ function save(){try{localStorage.setItem('ooty-v1',JSON.stringify(state));}catch
 
 const pillsEl=document.getElementById('pills');
 const mainEl=document.getElementById('main');
-const heroEl=document.getElementById('hero');
 const wrapEl=document.getElementById('sheetWrap');
 const sheetEl=document.getElementById('sheet');
 const gripEl=document.getElementById('grip');
 const scrollEl=document.getElementById('sheetScroll');
-
-hero.forEach(([id,alt])=>{const i=document.createElement('img');i.src=IMGS[id];i.alt=alt;i.loading='lazy';heroEl.appendChild(i);});
 
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
@@ -412,6 +400,11 @@ const NOTES={
  know:{t:'Good to know',h:'<p>December in Ooty: about 21°C by day, 9°C at night. Pack warm layers.</p><p>Re-check train 56143 on IRCTC a day before; hill trains can change.</p><p>Hill paths, boat boarding and garden slopes are uneven in places: cabs and autos over long walks, and skip any stretch that feels like too much.</p><p>Highfield asks for an advance visit reservation; confirm before the Coonoor morning. All activity windows are suggestions, not appointments.</p>'},
  src:{t:'Sources & freshness',h:'<p>Place photos and entry listings: Ooty Tourism, linked on each place. Highfield ticket pages checked 22 Nov 2026 (₹50 adult / ₹150 special). Sim\'s Park and Rose Garden fees from Ooty Tourism pages (₹75 adult each). Tea flavours: Tamil Nadu Tourism.</p><p>Café and dinner: Littlearth official venue pages and menus; <a href="https://www.newindianexpress.com/xplore/2024/Jun/06/eating-your-way-through-ooty">New Indian Express food guide</a>; <a href="https://timesofindia.indiatimes.com/travel/ooty/earls-secret/ps33024535.cms">Times Travel on Earl\'s Secret</a>. No table or cake arranged.</p><p>Buses: redBus dated searches, 22 Nov 2026. Drive times: Google Maps estimates, 22 Nov, not guaranteed hill-road conditions.</p>'}
 };
+function openDayInfo(dayId){
+  const d=days.find(x=>x.id===dayId);if(!d)return;
+  openSheet(`<div class="sheet-body"><div class="sh-kick">${esc(d.dow+' '+d.num)}</div><h3>${esc(d.title)}</h3><p>${esc(d.note)}</p></div>`);
+}
+
 function openNote(key){
   const n=NOTES[key];if(!n)return;
   openSheet(`<div class="sheet-body"><h3>${n.t}</h3>${n.h}</div>`);
@@ -441,8 +434,8 @@ function renderDay(d){
   sec.id='day-'+d.id;
   sec.innerHTML=`<div class="day-head">
     <span class="date-badge"><span class="dow">${d.dow}</span><span class="num">${d.num}</span></span>
-    <h2>${esc(d.title)}</h2></div>
-    <p class="day-note">${esc(d.note)}</p>`;
+    <h2>${esc(d.title)}</h2>
+    <button class="iday" data-dayinfo="${d.id}" aria-label="Day details">i</button></div>`;
 
   if(d.type==='options'){
     const wrap=document.createElement('div');
@@ -524,6 +517,8 @@ mainEl.addEventListener('click',e=>{
     const num=parseInt(n,10);
     if(state.picks[leg]===num)delete state.picks[leg];else state.picks[leg]=num;
     save();render();return;}
+  const di=e.target.closest('[data-dayinfo]');
+  if(di){openDayInfo(di.dataset.dayinfo);return;}
   const go=e.target.closest('[data-goto]');
   if(go){state.day=go.dataset.goto;save();render();window.scrollTo({top:0});return;}
   const open=e.target.closest('[data-open]');
