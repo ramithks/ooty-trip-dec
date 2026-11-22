@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ooty trip · Dec 9–13</title>
+<style>
+:root{
+  --bg:#f4f7f3; --card:#ffffff; --ink:#1d2b21; --mut:#5c6f60;
+  --grn:#1e6b45; --grn2:#e3f1e7; --acc:#c8502e; --line:#dfe7de;
+  --chip:#eef4ee; --gold:#a8763e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+img{display:block}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--grn)}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:30;background:rgba(244,247,243,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.top-in{max-width:720px;margin:0 auto;padding:10px 14px 8px}
+.top h1{font-size:19px;letter-spacing:.2px}
+.top .glance{font-size:12.5px;color:var(--mut);margin-top:1px}
+.top .picked{font-size:12px;color:var(--grn);margin-top:4px;display:none}
+.top .picked.on{display:block}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:9px 14px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;padding:7px 13px;border-radius:999px;background:var(--chip);border:1px solid var(--line);font-size:13px;font-weight:600;white-space:nowrap}
+.pill small{display:block;font-size:10.5px;font-weight:500;color:var(--mut)}
+.pill.on{background:var(--grn);border-color:var(--grn);color:#fff}
+.pill.on small{color:#cfe6d6}
+
+/* hero */
+.hero{max-width:720px;margin:10px auto 0;padding:0 14px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.hero::-webkit-scrollbar{display:none}
+.hero img{height:118px;width:176px;object-fit:cover;border-radius:12px;flex:0 0 auto}
+
+main{max-width:720px;margin:0 auto;padding:6px 14px 90px}
+.day{display:none}
+.day.on{display:block;animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.day-head{margin:14px 0 4px;display:flex;gap:11px;align-items:center}
+.date-badge{flex:0 0 auto;width:52px;height:52px;border-radius:14px;background:var(--grn);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+.date-badge .dow{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;opacity:.85}
+.date-badge .num{font-size:20px;font-weight:700}
+.day-head h2{font-size:18px}
+.day-note{font-size:13px;color:var(--mut);margin:2px 0 12px}
+
+/* stop cards */
+.stop{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.stop-top{display:flex;gap:12px;align-items:center;padding:11px 12px;width:100%;text-align:left}
+.num-badge{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center}
+.num-badge.letter{background:var(--gold)}
+.stop-thumb{flex:0 0 auto;width:64px;height:64px;border-radius:10px;object-fit:cover}
+.stop-mid{flex:1 1 auto;min-width:0}
+.stop-title{font-size:15.5px;font-weight:650}
+.stop-meta{font-size:12.5px;color:var(--mut);margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{font-size:11px;background:var(--grn2);color:var(--grn);border-radius:999px;padding:2.5px 9px;font-weight:600}
+.chip.warn{background:#fbeae3;color:var(--acc)}
+.chev{flex:0 0 auto;color:var(--mut);font-size:13px;transition:transform .15s}
+.stop.open .chev{transform:rotate(180deg)}
+.stop-body{display:none;padding:0 12px 13px}
+.stop.open .stop-body{display:block}
+.stop-body img{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:9px}
+.stop-body p{font-size:13.5px;margin-bottom:7px;color:#31463a}
+.stop-body .cost{color:var(--ink);font-weight:600}
+.stop-links{font-size:13px}
+.credit{font-size:11px;color:var(--mut)}
+
+/* booked train card */
+.tkt{background:linear-gradient(135deg,#1e6b45,#155232);color:#fff;border-radius:16px;padding:13px 14px;margin-bottom:10px}
+.tkt .row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tkt .t{font-size:21px;font-weight:700}
+.tkt .arrow{opacity:.8}
+.tkt .stns{font-size:13px;opacity:.92}
+.tkt .chips{margin-top:8px}
+.tkt .chip{background:rgba(255,255,255,.16);color:#fff}
+.tkt .note{font-size:12px;opacity:.85;margin-top:8px}
+
+/* extras */
+.extras-title{font-size:13px;font-weight:700;color:var(--gold);margin:14px 0 8px;letter-spacing:.2px}
+.extra .stop-top{opacity:.92}
+.add-btn{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--grn);border:1.5px solid var(--grn);border-radius:999px;padding:5px 11px}
+.add-btn.added{color:#fff;background:var(--grn)}
+.extra-hint{font-size:11.5px;color:var(--mut);padding:0 12px 10px}
+
+/* transport options */
+.opt{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px;position:relative}
+.opt.picked{border-color:var(--grn);box-shadow:0 0 0 3px var(--grn2)}
+.opt-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.opt-num{font-size:11.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.rec{font-size:10.5px;background:var(--grn);color:#fff;border-radius:999px;padding:2px 8px;font-weight:700}
+.opt-title{font-size:15.5px;font-weight:650}
+.opt-price{font-size:13.5px;color:var(--ink);margin:2px 0 6px}
+.opt-price small{color:var(--mut)}
+.opt-facts span{display:block;font-size:12.5px;color:var(--mut);margin-top:2px}
+.pick-btn{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--grn);border:1.5px solid var(--grn);border-radius:999px;padding:6px 13px}
+.opt.picked .pick-btn{background:var(--grn);color:#fff}
+.src-note{font-size:12px;color:var(--mut);margin:4px 0 10px}
+
+/* banner */
+.gohome{display:block;width:100%;background:#fff7e8;border:1.5px solid #ecd9ac;border-radius:16px;padding:12px 14px;text-align:left;margin:4px 0 10px}
+.gohome .m{font-size:14.5px;font-weight:700;color:#7a5b1e}
+.gohome .s{font-size:12.5px;color:#96803f;margin-top:2px}
+
+/* footer accordions */
+.fine{max-width:720px;margin:0 auto;padding:0 14px 40px}
+.fine h3{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 8px}
+details.acc{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:9px}
+details.acc summary{list-style:none;cursor:pointer;padding:12px 14px;font-size:14px;font-weight:650;display:flex;justify-content:space-between;align-items:center}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:'+';color:var(--mut);font-size:17px}
+details.acc[open] summary::after{content:'–'}
+details.acc .body{padding:0 14px 13px;font-size:13px;color:#31463a}
+details.acc .body p{margin-bottom:7px}
+.updated{font-size:11.5px;color:var(--mut);text-align:center;margin:18px 0 30px}
+@media(min-width:640px){
+  .hero img{height:150px;width:224px}
+  .stop-body img{height:240px}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <h1>Ooty trip · Dec 9–13</h1>
+    <div class="glance">4 days · 12 places · 1 booked train · night buses both ways</div>
+    <div class="picked" id="pickedLine"></div>
+  </div>
+  <div class="pills" id="pills"></div>
+</div>
+
+<div class="hero" id="hero"></div>
+
+<main id="main"></main>
+
+<div class="fine">
+  <h3>Trip notes</h3>
+  <details class="acc"><summary>Costs at a glance</summary><div class="body">
+    <p><b>Toy train ×2:</b> booked, paid already.</p>
+    <p><b>Buses both ways ×2:</b> about ₹3,400–4,900. Recommended pair ₹3,688, live listings 22 Nov, before fees.</p>
+    <p><b>Stay Dec 9–12:</b> 3 nights; set the Airbnb dates before booking.</p>
+    <p class="credit">Not the whole-trip total: stay, cabs/autos, meals, entries and boating are extra. Food budgets are estimates; entry prices are listings to reconfirm at the counter.</p>
+  </div></details>
+  <details class="acc"><summary>Still to book</summary><div class="body">
+    <p><b>Buses:</b> pick one each way in the Tue 8 and Sun 13 tabs. Not booked yet.</p>
+    <p><b>Airbnb:</b> set dates to Dec 9–12; ask the host about early bag drop on the 9th and keeping bags till evening on the 12th.</p>
+    <p><b>Scooter:</b> fully optional. This plan works with cabs and autos.</p>
+  </div></details>
+  <details class="acc"><summary>Good to know</summary><div class="body">
+    <p>December in Ooty: about 21°C by day, 9°C at night. Pack warm layers.</p>
+    <p>Re-check train 56143 on IRCTC a day before; hill trains can change.</p>
+    <p>Hill paths, boat boarding and garden slopes are uneven in places: cabs and autos over long walks, and skip any stretch that feels like too much.</p>
+    <p>Highfield asks for an advance visit reservation; confirm before the Coonoor morning. All activity windows are suggestions, not appointments.</p>
+  </div></details>
+  <details class="acc"><summary>Sources &amp; freshness</summary><div class="body">
+    <p>Place photos and entry listings: Ooty Tourism, linked on each place. Highfield ticket pages checked 22 Nov 2026 (₹50 adult / ₹150 special). Sim's Park and Rose Garden fees from Ooty Tourism pages (₹75 adult each). Tea flavours: Tamil Nadu Tourism.</p>
+    <p>Café and dinner: Littlearth official venue pages and menus; <a href="https://www.newindianexpress.com/xplore/2024/Jun/06/eating-your-way-through-ooty">New Indian Express food guide</a>; <a href="https://timesofindia.indiatimes.com/travel/ooty/earls-secret/ps33024535.cms">Times Travel on Earl's Secret</a>. No table or cake arranged.</p>
+    <p>Buses: redBus dated searches, 22 Nov 2026. Drive times: Google Maps estimates, 22 Nov, not guaranteed hill-road conditions.</p>
+  </div></details>
+  <div class="updated">Updated 22 Nov 2026 · train booked, buses and stay open · fares are listings, not paid totals</div>
+</div>
+
+<script src="photos-a.js"></script>
+<script src="photos-b.js"></script>
+<script>
+const IMGS=Object.assign({},IMGS_A,IMGS_B);
+const hero=[['tea-estate','Tea rows over the Nilgiri hills'],['lake','Boats on Ooty Lake'],['doddabetta','View from Doddabetta'],['pykara','Pykara reservoir']];
+
+const days=[
+ {id:'go',dow:'Tue',num:'8',chip:'Go',title:'Night bus from Bengaluru',
+  note:'Leave about 10:30–11 pm, sleep on the bus, wake up in the hills. Not booked yet — pick one below.',
+  type:'options',leg:'go',
+  options:[
+   {number:1,title:'Night AC sleeper bus',rec:true,price:'₹695–1,299',per:'per person',facts:['Leaves about 10:30–11 pm, lands 6:30–8 am','Pick: Asian Xpress 10:40 pm, ₹695, 4.4★ (412), free date change','22 buses listed for Tue Dec 8']},
+   {number:2,title:'KSRTC government bus',rec:false,price:'from ₹840',per:'per person',facts:['7 KSRTC buses listed for Dec 8','Budget pick, plainer seats']}
+  ],
+  src:'Book on <a href="https://www.redbus.in">redBus</a>, <a href="https://www.ixigo.com">ixigo</a> or <a href="https://www.ksrtc.in">ksrtc.in</a>. Live listings checked 22 Nov; fares move.'},
+
+ {id:'d9',dow:'Wed',num:'9',chip:'Arrive',title:'Arrive, rest, easy evening',
+  note:'Land about 7:15 am. Breakfast, bags, rest. Then just the evening below.',
+  stops:[
+   {id:'chocolate',number:'6',title:"Moddy's chocolates",time:'4:30–5:15 pm',cat:'Chocolate stop',costShort:'spend what you like',
+    why:'Start the first evening with chocolates to take home. One small mixed box, not chocolate shopping at every factory.',
+    cost:'Buy what you like; no fixed spend.',
+    detail:"144 Garden Road, near the Botanical Garden. Keep the dinner appetite.",
+    alt:'Glass chocolate counters inside Moddys shop',credit:"Photo: Moddy's official site",
+    url:'https://moddys.in/pages/moddys-chocolates-and-pattisseries-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=Moddys+Confectionery+%26+Modern+Stores&query_place_id=ChIJGfCowpK9qDsRpTIpyRodqsk'},
+   {id:'dinner',number:'7',title:"Earl's Secret",time:'7:30–9 pm',cat:'Special dinner',costShort:'₹2,500–3,500 for two, est.',
+    why:"A glasshouse dinner at King's Cliff makes the evening feel like an occasion, not another sightseeing stop. Indian, Continental and Chinese dishes.",
+    cost:'Plan ₹2,500–3,500 for two, estimate.',
+    detail:'Havelock Road. Table and cake are not arranged; confirm before going. Take a cab, not a long uphill walk.',
+    alt:'Tables beneath the glass roof at Earls Secret',credit:'Photo: The Littlearth Group',
+    url:'https://www.littlearth.in/restaurant/earls-secret.html',
+    map:'https://www.google.com/maps/search/?api=1&query=Earl%27s+Secret&query_place_id=ChIJ_____4i9qDsRy-32zCtecFI'}
+  ]},
+
+ {id:'d10',dow:'Thu',num:'10',chip:'Tea + train',title:'Tea country, then the booked train',
+  note:'Leave Ooty 8:45 am. Highfield is about 23 km / 1 hour by road. Lunch and rest after the train.',
+  stops:[
+   {id:'highfield',number:'8',title:'Highfield Tea Estate',time:'9:45–11:00 am',cat:'Coonoor · estate + tasting',costShort:'₹50 / ₹150 entry',
+    why:'The one full tea experience: garden entry, tea-making and tasting, out among the tea bushes.',
+    cost:'₹50 adult / ₹150 special, listed. Special adds green and white tea.',
+    detail:'The site asks for advance reservation, so confirm the visit before the Coonoor morning.',
+    alt:'Tea rows around the green Highfield factory buildings',credit:'Photo: Ooty Tourism',
+    url:'https://highfieldshopping.in/products/adult-entry',
+    map:'https://www.google.com/maps/search/?api=1&query=Highfield+Tea+Factory&query_place_id=ChIJR6EHUzqVqDsRmFXlyjSdYzA'},
+   {id:'train',number:'9',title:'Coonoor → Ooty toy train',time:'12:35–1:45 pm',cat:'First Class ×2 · booked',costShort:'booked ✓',
+    why:'The anchor of the day. Reach Coonoor station by 12:15 pm; Highfield to station is about 5 km / 16 min.',
+    cost:'Already booked and confirmed for two.',
+    detail:'Train 56143. The photo shows the heritage railway, not the assigned engine; this booking is not a promise of steam.',
+    alt:'Heritage steam locomotive and blue coaches at Ketti station',credit:'Heritage railway photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/ooty-toy-train-mountain-railway'},
+   {id:'lake',number:'10',title:'Ooty Lake',time:'3:30–4:30 pm',cat:'Lake + optional boating',costShort:'₹20 entry · ₹350 pedal boat',
+    why:'The one boating stop. Sit by the water, or take a boat if boarding looks easy.',
+    cost:'Listed: ₹20 entry; ₹350 pedal boat for 2, 30 min. Reconfirm at counter.',
+    detail:'Rest after the train if needed; the lake stays optional.',
+    alt:'Boats on the lake below wooded hills',credit:'Photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/ooty-lake',
+    map:'https://www.google.com/maps/search/?api=1&query=Tamilnadu+Tourism+Boat+House%2C+Ooty&query_place_id=ChIJgfD1JYG9qDsR7d1ZFDymfcI'}
+  ],
+  extras:[
+   {id:'sims-park',letter:'A',slot:0,title:"Sim's Park, Coonoor",time:'8:50–9:30 am',cat:'Extra · garden stop',costShort:'₹75 entry',
+    why:'A 12-hectare botanical garden in Coonoor, on the way to Highfield. Only works with an early start.',
+    cost:'Listed ₹75 per adult; camera extra. Open 7 am–6:30 pm.',
+    detail:'Add only if leaving Ooty by 8 am, otherwise it squeezes Highfield.',
+    alt:'Flower beds and walkways inside Sims Park',credit:'Photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/sims-park-coonoor',
+    map:'https://www.google.com/maps/search/?api=1&query=Sim%27s+Park+Coonoor'}
+  ]},
+
+ {id:'d11',dow:'Fri',num:'11',chip:'Peak + café',title:'The peak, a garden and a good café',
+  note:'Breakfast first. Keep 11:30 am–1:30 pm free for lunch and the ride back into town.',
+  stops:[
+   {id:'doddabetta',number:'11',title:'Doddabetta + carrot stalls',time:'9–10:15 am',cat:'Peak views',costShort:'₹10 entry',
+    why:'The carrot-selling peak. Morning views, photos, a warm snack.',
+    cost:'Listed entry ₹10 per person.',
+    detail:'About 9 km from town. Visibility depends on fog; keep the walking light. Carrot stalls are a likely match, not a guarantee.',
+    alt:'View across wooded hills and Ooty from Doddabetta',credit:'Photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/doddabetta-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=Doddabetta+Peak&query_place_id=ChIJQ04Nnv-VqDsReeHdtrfB-qw'},
+   {id:'factory',number:'12',title:'Tea Factory, flavoured tea',time:'10:45–11:15 am · optional',cat:'Short tasting, not another tour',costShort:'₹20–50 entry',
+    why:'The likely match for the flavoured-tea memory. A quick taste on the way down, not a repeat tour.',
+    cost:'Published entry about ₹20–50 each; tasting not promised as free.',
+    detail:'Doddabetta Road. Tamil Nadu Tourism lists cardamom, masala, ginger and green tea. Skip the second tour and chocolate shopping.',
+    alt:'Entrance steps and exterior of the Ooty Tea Factory',credit:'Photo: Ooty Tourism',
+    url:'https://www.tamilnadutourism.tn.gov.in/destinations/tea-museum--tea-factory-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=The+Tea+Factory+%26+The+Tea+Museum&query_place_id=ChIJjbwkQPC9qDsR_ATd9VDaHtg'},
+   {id:'garden',number:'13',title:'Botanical Garden',time:'2–3:15 pm',cat:'Garden + photos',costShort:'₹100 entry',
+    why:'After lunch, the lower garden slowly. Lawns, old trees and time for photos.',
+    cost:'Listed adult entry ₹100 each.',
+    detail:'Keep to the lower paths rather than the whole slope. Flowers in the photo are seasonal, not a promise of December blooms.',
+    alt:'Pink and white flowers in the Botanical Garden',credit:'Photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/ooty-botanical-gardens',
+    map:'https://www.google.com/maps/search/?api=1&query=Government+Botanical+Garden&query_place_id=ChIJfcu8W-u9qDsRj7OFxEygZH0'},
+   {id:'cafe',number:'14',title:'Le Café, Littlearth Square',time:'3:45–5 pm',cat:'The café stop',costShort:'₹800–1,400 for two, est.',
+    why:'The café pick: open-air courtyard, coffee, bakery treats and brick-oven pizza. A proper sit-down break.',
+    cost:'Plan ₹800–1,400 for two, estimate. Coffee + pastry light; shared pizza if hungry.',
+    detail:"Commissioner's Road. Outdoor seating, so warm layers or an indoor fallback in rain.",
+    alt:'Outdoor cafe tables and umbrellas at Littlearth Square',credit:'Photo: The Littlearth Group',
+    url:'https://www.littlearth.in/restaurant/le-cafe.html',
+    map:'https://www.google.com/maps/search/?api=1&query=Le+Cafe&query_place_id=ChIJSTzAkCW9qDsR0LNMVr0pIqA'}
+  ],
+  extras:[
+   {id:'rose-garden',letter:'A',slot:3,title:'Government Rose Garden',time:'5:15–6 pm',cat:'Extra · evening garden',costShort:'₹75 entry',
+    why:'Award-winning rose terraces on the slope, an easy add after the café if energy is left.',
+    cost:'Listed ₹75 per adult; camera extra. Open 7 am–6:30 pm.',
+    detail:'Sloped terraces — take the upper paths slowly. December blooms vary.',
+    alt:'Rose beds on terraced slopes at Ooty Rose Garden',credit:'Photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/ooty-rose-garden',
+    map:'https://www.google.com/maps/search/?api=1&query=Government+Rose+Garden+Ooty'}
+  ]},
+
+ {id:'d12',dow:'Sat',num:'12',chip:'Pykara',title:'Meadows and Pykara, then homeward',
+  note:'Check out, leave bags with the host if agreed, start about 9 am. Back in town by 5 pm.',
+  stops:[
+   {id:'wenlock',number:'15',title:'Wenlock Downs, 9th Mile',time:'10–10:30 am · optional',cat:'Grassland photo stop',costShort:'₹50 entry',
+    why:'Open rolling meadows on the Pykara road, different from the town gardens and lake.',
+    cost:'Listed entry ₹50 each.',
+    detail:'A short stop; the uphill walk is skippable. Photo shows sunset; this visit is morning.',
+    alt:'Rolling meadows and distant hills at 9th Mile near sunset',credit:'Photo: Ooty Tourism',
+    url:'https://www.tamilnadutourism.tn.gov.in/destinations/shooting-point-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=Ticket+Counter+-+9th+Mile+Shooting+Spot+%7C+Ooty&query_place_id=ChIJ98wkwgqjqDsRLlaOzwcd5y0'},
+   {id:'falls',number:'16',title:'Pykara Falls',time:'11 am–noon',cat:'Waterfall views',costShort:'₹40 entry',
+    why:'The main Pykara outing. Time at the viewing area and photos, no climbing on wet rocks.',
+    cost:'Listed entry ₹40 each.',
+    detail:'Paths and steps can be uneven or slippery. Water flow depends on recent conditions.',
+    alt:'Pykara river flowing over broad rocky ledges',credit:'Photo: Ooty Tourism',
+    url:'https://ootytourism.co.in/pykara-waterfalls-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=Pykara+Waterfall&query_place_id=ChIJ9-4YWbCjqDsR7Kni0eNOneE'},
+   {id:'pykara',number:'17',title:'Pykara Lake',time:'12:30–1:30 pm',cat:'Reservoir scenery',costShort:'₹10 entry',
+    why:'The quiet reservoir for the scenery, then lunch. Ooty Lake is already the boating stop.',
+    cost:'Listed entry ₹10 each; no boat budgeted.',
+    detail:'Start back about 2:30 pm; roughly 24 km / 1 hr 10 min to town. Bags collected by 5 pm, no last-minute dash.',
+    alt:'Green banks and wooded hills around Pykara reservoir',credit:'Photo: Ooty Tourism',
+    url:'https://www.tamilnadutourism.tn.gov.in/destinations/pykara-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=Pykara+Lake+Boat+House&query_place_id=ChIJ3YuiDCy9qDsRGtdKUSP4p7U'}
+  ],
+  extras:[
+   {id:'pykara-boat',letter:'A',slot:3,title:'Pykara Lake boating',time:'12:30–1 pm',cat:'Extra · second boat ride',costShort:'price at counter',
+    why:'The boat house at Pykara runs motor and speed boats if a second ride on still water sounds good.',
+    cost:'Not budgeted; confirm price at the counter.',
+    detail:'Swaps with the quiet lake hour, so the drive back still starts 2:30 pm.',
+    alt:'Green banks and wooded hills around Pykara reservoir',credit:'Photo: Ooty Tourism',
+    url:'https://www.tamilnadutourism.tn.gov.in/destinations/pykara-ooty',
+    map:'https://www.google.com/maps/search/?api=1&query=Pykara+Lake+Boat+House&query_place_id=ChIJ3YuiDCy9qDsRGtdKUSP4p7U'}
+  ],
+  banner:true},
+
+ {id:'back',dow:'Sun',num:'13',chip:'Back',title:'Night bus back, wake up in Bengaluru',
+  note:'Board Sat 12 Dec night. All of these are sleepers, so the morning is back home on Sun 13 Dec. Not booked yet.',
+  type:'options',leg:'back',
+  options:[
+   {number:3,title:'MMK A/C Sleeper, 7:45 pm',rec:true,price:'₹1,149',per:'per person',facts:['Lands in Bengaluru 5:25 am Sunday','Best rated here: 4.5★ (467)','24 buses listed for Sat Dec 12']},
+   {number:4,title:'Asian Xpress A/C Sleeper, 8:30 pm',rec:false,price:'₹995',per:'per person',facts:['Lands in Bengaluru 6:15 am Sunday','4.4★ (419), free date change']},
+   {number:5,title:'KSRTC government bus',rec:false,price:'from ₹762',per:'per person',facts:['9 KSRTC buses listed for Dec 12','Budget pick, plainer seats']}
+  ],
+  src:'Live listings checked 22 Nov: 24 buses for Sat Dec 12; fares move. Allow the onward ride home after the drop.'}
+];
+
+/* state */
+let state={day:'go',picks:{},extras:{}};
+try{const s=localStorage.getItem('ooty-v1');if(s)state=Object.assign(state,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem('ooty-v1',JSON.stringify(state));}catch(e){}}
+
+const pillsEl=document.getElementById('pills');
+const mainEl=document.getElementById('main');
+const heroEl=document.getElementById('hero');
+
+hero.forEach(([id,alt])=>{const i=document.createElement('img');i.src=IMGS[id];i.alt=alt;i.loading='lazy';heroEl.appendChild(i);});
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function stopCard(st,dayId,isExtra,inPlan){
+  const card=document.createElement('article');
+  card.className='stop'+(isExtra?' extra':'');
+  card.dataset.sid=st.id;card.dataset.day=dayId;
+  const badge=st.number?`<span class="num-badge">${st.number}</span>`:`<span class="num-badge letter">${st.letter}</span>`;
+  const btn=isExtra?`<button class="add-btn ${inPlan?'added':''}" data-add="${st.id}">${inPlan?'Added ✓':'+ Add'}</button>`:`<span class="chev">▾</span>`;
+  card.innerHTML=`
+    <button class="stop-top" data-toggle="${st.id}">
+      ${badge}
+      <img class="stop-thumb" src="${IMGS[st.id]}" alt="" loading="lazy">
+      <span class="stop-mid">
+        <span class="stop-title">${esc(st.title)}</span>
+        <span class="stop-meta">${esc(st.time)}</span>
+        <span class="chips"><span class="chip">${esc(st.cat)}</span><span class="chip warn">${esc(st.costShort)}</span></span>
+      </span>
+      ${btn}
+    </button>
+    <div class="stop-body">
+      <img src="${IMGS[st.id]}" alt="${esc(st.alt)}" loading="lazy">
+      <p>${esc(st.why)}</p>
+      <p class="cost">${esc(st.cost)}</p>
+      <p>${esc(st.detail)}</p>
+      <p class="stop-links"><a href="${st.url}" target="_blank" rel="noopener">Source</a>${st.map?` · <a href="${st.map}" target="_blank" rel="noopener">Map</a>`:''}</p>
+      <p class="credit">${esc(st.credit)}</p>
+    </div>`;
+  if(isExtra&&inPlan){
+    const hint=document.createElement('div');hint.className='extra-hint';
+    hint.textContent='Added to this day. Tap "Added ✓" to take it out.';
+    card.appendChild(hint);
+  }
+  return card;
+}
+
+function renderDay(d){
+  const sec=document.createElement('section');
+  sec.className='day'+(state.day===d.id?' on':'');
+  sec.id='day-'+d.id;
+  sec.innerHTML=`<div class="day-head">
+    <span class="date-badge"><span class="dow">${d.dow}</span><span class="num">${d.num}</span></span>
+    <h2>${esc(d.title)}</h2></div>
+    <p class="day-note">${esc(d.note)}</p>`;
+
+  if(d.type==='options'){
+    const wrap=document.createElement('div');
+    d.options.forEach(o=>{
+      const picked=state.picks[d.leg]===o.number;
+      const el=document.createElement('div');
+      el.className='opt'+(picked?' picked':'');
+      el.innerHTML=`<div class="opt-top"><span class="opt-num">Option ${o.number}</span>${o.rec?'<span class="rec">Recommended</span>':''}</div>
+        <div class="opt-title">${esc(o.title)}</div>
+        <div class="opt-price">${esc(o.price)} <small>${esc(o.per)}</small></div>
+        <div class="opt-facts">${o.facts.map(f=>`<span>${esc(f)}</span>`).join('')}</div>
+        <button class="pick-btn" data-pick="${d.leg}:${o.number}">${picked?'Picked ✓':'Pick this'}</button>`;
+      wrap.appendChild(el);
+    });
+    sec.appendChild(wrap);
+    const sn=document.createElement('p');sn.className='src-note';sn.innerHTML=d.src;sec.appendChild(sn);
+  }else{
+    const addedExtras=(d.extras||[]).filter(x=>state.extras[x.id]);
+    const stops=d.stops.slice();
+    addedExtras.forEach(x=>stops.splice(Math.min(x.slot,stops.length),0,x));
+    stops.forEach(st=>sec.appendChild(stopCard(st,d.id,!!st.letter,!!st.letter)));
+    if(d.id==='d10'){
+      const t=document.createElement('div');t.className='tkt';
+      t.innerHTML=`<div class="row"><span class="t">12:35</span><span class="arrow">→</span><span class="t">1:45</span><span class="stns">Coonoor to Ooty · train 56143</span></div>
+        <div class="chips"><span class="chip">Booked ✓</span><span class="chip">Confirmed ×2</span><span class="chip">First Class</span></div>
+        <p class="note">At Coonoor station by 12:15 pm, photo ID each.</p>`;
+      sec.insertBefore(t,sec.children[2+stops.findIndex(s=>s.id==='train')+1]||null);
+      /* place ticket right after the train card */
+      const trainCard=sec.querySelector('[data-sid="train"]');
+      if(trainCard&&trainCard.nextSibling)sec.insertBefore(t,trainCard.nextSibling);else sec.appendChild(t);
+    }
+    if(d.banner){
+      const b=document.createElement('button');b.className='gohome';b.dataset.goto='back';
+      b.innerHTML=`<span class="m">Then: 7:45 pm sleeper bus home</span><span class="s" style="display:block">MMK A/C, ₹1,149 per person, lands 5:25 am Sun. Not booked — see return options →</span>`;
+      sec.appendChild(b);
+    }
+    const pending=(d.extras||[]).filter(x=>!state.extras[x.id]);
+    if(pending.length){
+      const h=document.createElement('div');h.className='extras-title';
+      h.textContent='Extra stops — add if you want to cover more';
+      sec.appendChild(h);
+      pending.forEach(x=>sec.appendChild(stopCard(x,d.id,true,false)));
+    }
+  }
+  return sec;
+}
+
+function renderPills(){
+  pillsEl.innerHTML='';
+  days.forEach(d=>{
+    const b=document.createElement('button');
+    b.className='pill'+(state.day===d.id?' on':'');
+    b.innerHTML=`${d.dow} ${d.num}<small>${esc(d.chip)}</small>`;
+    b.onclick=()=>{state.day=d.id;save();render();window.scrollTo({top:0});};
+    pillsEl.appendChild(b);
+  });
+}
+
+function renderPicked(){
+  const el=document.getElementById('pickedLine');
+  const parts=[];
+  ['go','back'].forEach(leg=>{
+    const n=state.picks[leg];
+    if(n!=null){const d=days.find(x=>x.leg===leg);const o=d.options.find(y=>y.number===n);
+      parts.push((leg==='go'?'Go':'Return')+': '+o.title+' ('+o.price+')');}
+  });
+  const added=Object.keys(state.extras).filter(k=>state.extras[k]).length;
+  if(added)parts.push(added+' extra stop'+(added>1?'s':'')+' added');
+  el.textContent=parts.length?('Your picks · '+parts.join(' · ')):'';
+  el.className='picked'+(parts.length?' on':'');
+}
+
+function render(){
+  renderPills();
+  mainEl.innerHTML='';
+  days.forEach(d=>mainEl.appendChild(renderDay(d)));
+  renderPicked();
+}
+
+mainEl.addEventListener('click',e=>{
+  const add=e.target.closest('[data-add]');
+  if(add){e.stopPropagation();const id=add.dataset.add;
+    state.extras[id]=!state.extras[id];if(!state.extras[id])delete state.extras[id];
+    save();render();return;}
+  const pick=e.target.closest('[data-pick]');
+  if(pick){const [leg,n]=pick.dataset.pick.split(':');
+    const num=parseInt(n,10);
+    if(state.picks[leg]===num)delete state.picks[leg];else state.picks[leg]=num;
+    save();render();return;}
+  const go=e.target.closest('[data-goto]');
+  if(go){state.day=go.dataset.goto;save();render();window.scrollTo({top:0});return;}
+  const tog=e.target.closest('[data-toggle]');
+  if(tog){tog.closest('.stop').classList.toggle('open');return;}
+});
+
+render();
+</script>
+</body>
+</html>
