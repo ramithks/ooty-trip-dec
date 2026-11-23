@@ -62,6 +62,7 @@ main{max-width:720px;margin:0 auto;padding:8px 16px 80px}
 .cinfo{position:absolute;left:13px;right:13px;bottom:11px;pointer-events:none}
 .ct{display:block;font-size:16.5px;font-weight:750;text-shadow:0 1px 8px rgba(0,0,0,.55)}
 .cm{display:block;font-size:12.5px;color:#cfdad1;margin-top:2px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.cm2{display:block;font-size:11.5px;color:#9fdcb9;margin-top:2px;font-weight:650;text-shadow:0 1px 6px rgba(0,0,0,.65)}
 .addbtn{position:absolute;top:11px;right:11px;font-size:12.5px;font-weight:750;color:var(--grn);background:rgba(10,14,12,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1.5px solid var(--grn);border-radius:999px;padding:5px 13px}
 .addbtn.added{color:var(--grn-ink);background:var(--grn)}
 .tap-hint{position:absolute;bottom:11px;right:13px;font-size:11px;color:rgba(238,244,239,.75);pointer-events:none}
@@ -108,7 +109,8 @@ main{max-width:720px;margin:0 auto;padding:8px 16px 80px}
 .sheet-body{padding:14px 17px 34px}
 .sh-kick{font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.7px;font-weight:750;margin-bottom:4px}
 .sheet-body h3{font-size:19px;font-weight:800;margin-bottom:3px}
-.sh-meta{font-size:13px;color:var(--mut);margin-bottom:10px}
+.sh-meta{font-size:13px;color:var(--mut);margin-bottom:4px}
+.sh-leg{font-size:12.5px;color:var(--amber);font-weight:650;margin-bottom:10px}
 .sh-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .sh-chip{font-size:11.5px;background:rgba(67,214,143,.12);color:#62d8a2;border:1px solid rgba(67,214,143,.2);border-radius:999px;padding:3px 10px;font-weight:650}
 .sh-chip.warn{background:rgba(239,125,78,.12);color:#f09a70;border-color:rgba(239,125,78,.22)}
@@ -135,7 +137,7 @@ main{max-width:720px;margin:0 auto;padding:8px 16px 80px}
 <header class="top">
   <div class="top-in">
     <h1>Ooty <span>Dec 9–12</span></h1>
-    <div class="sub">4 days · 12 places · train booked ✓</div>
+    <div class="sub">4 days · 13 places · train booked ✓</div>
   </div>
   <nav class="pills" id="pills"></nav>
   <div class="picked-line" id="pickedLine"></div>
@@ -150,7 +152,7 @@ main{max-width:720px;margin:0 auto;padding:8px 16px 80px}
     <button class="fine-btn" data-note="know">Good to know</button>
     <button class="fine-btn" data-note="src">Sources</button>
   </div>
-  <div class="updated">Updated 22 Nov 2026 · fares are listings, not paid totals</div>
+  <div class="updated">Updated 23 Nov 2026 · fares are listings, not paid totals</div>
 </footer>
 
 <div class="sheet-wrap" id="sheetWrap" hidden>
@@ -169,7 +171,7 @@ const IMGS=Object.assign({},IMGS_A,IMGS_B);
 
 const days=[
  {id:'go',dow:'Tue',num:'8',chip:'Go',title:'Night bus from Bengaluru',
-  note:'Leave about 10:30–11 pm, sleep on the bus, wake up in the hills. Not booked yet — pick one below.',
+  note:'Leave about 10:30–11 pm, sleep on the bus, wake up in the hills. About 270 km, 7–8 hrs overnight. Not booked yet — pick one below.',
   type:'options',leg:'go',
   options:[
    {number:1,title:'Night AC sleeper bus',rec:true,price:'₹695–1,299',per:'per person',facts:['Leaves about 10:30–11 pm, lands 6:30–8 am','Pick: Asian Xpress 10:40 pm, ₹695, 4.4★ (412), free date change','22 buses listed for Tue Dec 8']},
@@ -177,18 +179,28 @@ const days=[
   ],
   src:'Book on <a href="https://www.redbus.in">redBus</a>, <a href="https://www.ixigo.com">ixigo</a> or <a href="https://www.ksrtc.in">ksrtc.in</a>. Live listings checked 22 Nov; fares move.'},
 
- {id:'d9',dow:'Wed',num:'9',chip:'Arrive',title:'Arrive, rest, easy evening',
-  note:'Land about 7:15 am. Breakfast, bags, rest. Then just the evening below.',
+ {id:'d9',dow:'Wed',num:'9',chip:'Arrive',title:'Arrive, rest, easy birthday evening',
+  note:'Bus lands about 7:15 am. Breakfast, bags, nap. The evening is gentle and all inside town: a short stroll, chocolates, then the birthday dinner.',
   stops:[
-   {id:'chocolate',number:'6',title:"Moddy's chocolates",time:'4:30–5:15 pm',cat:'Chocolate stop',costShort:'spend what you like',
+   {id:'charing-cross',number:'1',title:'Charing Cross stroll',time:'3:30–4:15 pm',dur:'45 min',cat:'Gentle town walk',costShort:'free',
+    leg:'2 km · 8 min by auto to Moddy\'s',
+    why:'The town\'s main junction and market street: lively, mostly flat, and an easy first taste of Ooty after the night bus. Rest longer instead if the journey was rough.',
+    cost:'Free; shop only if something catches your eye.',
+    detail:'Commercial Road around Charing Cross. Cafés and benches around if one of you wants to sit while the other wanders.',
+    alt:'Charing Cross junction in Ooty on a quiet morning',credit:'Photo: Gcheruvath, Wikimedia Commons (CC BY-SA 3.0)',
+    url:'https://commons.wikimedia.org/wiki/File:Charring_Cross_Junction_Ooty,_Morning,_Oct_2010.jpg',
+    map:'https://www.google.com/maps/search/?api=1&query=Charing+Cross+Ooty'},
+   {id:'chocolate',number:'2',title:"Moddy's chocolates",time:'4:30–5:15 pm',dur:'45 min',cat:'Chocolate stop',costShort:'spend what you like',
+    leg:'back to the stay to rest, then 2.5 km · 10 min cab to dinner',
     why:'Start the first evening with chocolates to take home. One small mixed box, not chocolate shopping at every factory.',
     cost:'Buy what you like; no fixed spend.',
     detail:"144 Garden Road, near the Botanical Garden. Keep the dinner appetite.",
     alt:'Glass chocolate counters inside Moddys shop',credit:"Photo: Moddy's official site",
     url:'https://moddys.in/pages/moddys-chocolates-and-pattisseries-ooty',
     map:'https://www.google.com/maps/search/?api=1&query=Moddys+Confectionery+%26+Modern+Stores&query_place_id=ChIJGfCowpK9qDsRpTIpyRodqsk'},
-   {id:'dinner',number:'7',title:"Earl's Secret",time:'7:30–9 pm',cat:'Special dinner',costShort:'₹2,500–3,500 for two, est.',
-    why:"A glasshouse dinner at King's Cliff makes the evening feel like an occasion, not another sightseeing stop. Indian, Continental and Chinese dishes.",
+   {id:'dinner',number:'3',title:"Earl's Secret",time:'7:30–9 pm',dur:'1½ hr',cat:'Birthday dinner',costShort:'₹2,500–3,500 for two, est.',
+    leg:'short cab back · day ends in town',
+    why:"A glasshouse dinner at King's Cliff makes the birthday feel like an occasion, not another sightseeing stop. Indian, Continental and Chinese dishes.",
     cost:'Plan ₹2,500–3,500 for two, estimate.',
     detail:'Havelock Road. Table and cake are not arranged; confirm before going. Take a cab, not a long uphill walk.',
     alt:'Tables beneath the glass roof at Earls Secret',credit:'Photo: The Littlearth Group',
@@ -197,22 +209,25 @@ const days=[
   ]},
 
  {id:'d10',dow:'Thu',num:'10',chip:'Tea + train',title:'Tea country, then the booked train',
-  note:'Leave Ooty 8:45 am. Highfield is about 23 km / 1 hour by road. Lunch and rest after the train.',
+  note:'Leave the stay 8:45 am (8 am sharp if you add Sim\'s Park). Highfield is about 23 km · 1 hr by road. Lunch and rest after the train.',
   stops:[
-   {id:'highfield',number:'8',title:'Highfield Tea Estate',time:'9:45–11:00 am',cat:'Coonoor · estate + tasting',costShort:'₹50 / ₹150 entry',
+   {id:'highfield',number:'4',title:'Highfield Tea Estate',time:'9:45–11:00 am',dur:'1 hr 15',cat:'Coonoor · estate + tasting',costShort:'₹50 / ₹150 entry',
+    leg:'5 km · 15 min to Coonoor station · reach by 12:15 pm',
     why:'The one full tea experience: garden entry, tea-making and tasting, out among the tea bushes.',
     cost:'₹50 adult / ₹150 special, listed. Special adds green and white tea.',
     detail:'The site asks for advance reservation, so confirm the visit before the Coonoor morning.',
     alt:'Tea rows around the green Highfield factory buildings',credit:'Photo: Ooty Tourism',
     url:'https://highfieldshopping.in/products/adult-entry',
     map:'https://www.google.com/maps/search/?api=1&query=Highfield+Tea+Factory&query_place_id=ChIJR6EHUzqVqDsRmFXlyjSdYzA'},
-   {id:'train',number:'9',title:'Coonoor → Ooty toy train',time:'12:35–1:45 pm',cat:'First Class ×2 · booked',costShort:'booked ✓',
-    why:'The anchor of the day. Reach Coonoor station by 12:15 pm; Highfield to station is about 5 km / 16 min.',
+   {id:'train',number:'5',title:'Coonoor → Ooty toy train',time:'12:35–1:45 pm',dur:'1 hr 10',cat:'First Class ×2 · booked',costShort:'booked ✓',
+    leg:'lands in Ooty 1:45 pm · lunch + rest, lake is 2 km · 8 min from town',
+    why:'The anchor of the day. Reach Coonoor station by 12:15 pm; Highfield to station is about 5 km / 15 min.',
     cost:'Already booked and confirmed for two.',
     detail:'Train 56143. The photo shows the heritage railway, not the assigned engine; this booking is not a promise of steam.',
     alt:'Heritage steam locomotive and blue coaches at Ketti station',credit:'Heritage railway photo: Ooty Tourism',
     url:'https://ootytourism.co.in/ooty-toy-train-mountain-railway'},
-   {id:'lake',number:'10',title:'Ooty Lake',time:'3:30–4:30 pm',cat:'Lake + optional boating',costShort:'₹20 entry · ₹350 pedal boat',
+   {id:'lake',number:'6',title:'Ooty Lake',time:'3:30–4:30 pm',dur:'1 hr',cat:'Lake + optional boating',costShort:'₹20 entry · ₹350 pedal boat',
+    leg:'back to the stay · evening free',
     why:'The one boating stop. Sit by the water, or take a boat if boarding looks easy.',
     cost:'Listed: ₹20 entry; ₹350 pedal boat for 2, 30 min. Reconfirm at counter.',
     detail:'Rest after the train if needed; the lake stays optional.',
@@ -221,7 +236,7 @@ const days=[
     map:'https://www.google.com/maps/search/?api=1&query=Tamilnadu+Tourism+Boat+House%2C+Ooty&query_place_id=ChIJgfD1JYG9qDsR7d1ZFDymfcI'}
   ],
   extras:[
-   {id:'sims-park',letter:'A',slot:0,title:"Sim's Park, Coonoor",time:'8:50–9:30 am',cat:'Extra · garden stop',costShort:'₹75 entry',
+   {id:'sims-park',letter:'A',slot:0,title:"Sim's Park, Coonoor",time:'8:50–9:30 am',dur:'40 min',cat:'Extra · garden stop',costShort:'₹75 entry',
     why:'A 12-hectare botanical garden in Coonoor, on the way to Highfield. Only works with an early start.',
     cost:'Listed ₹75 per adult; camera extra. Open 7 am–6:30 pm.',
     detail:'Add only if leaving Ooty by 8 am, otherwise it squeezes Highfield.',
@@ -231,30 +246,34 @@ const days=[
   ]},
 
  {id:'d11',dow:'Fri',num:'11',chip:'Peak + café',title:'The peak, a garden and a good café',
-  note:'Breakfast first. Keep 11:30 am–1:30 pm free for lunch and the ride back into town.',
+  note:'Leave after breakfast, about 8:30 am. Doddabetta is about 10 km · 30 min up. Keep 11:30 am–1:30 pm free for lunch and the ride back into town.',
   stops:[
-   {id:'doddabetta',number:'11',title:'Doddabetta + carrot stalls',time:'9–10:15 am',cat:'Peak views',costShort:'₹10 entry',
+   {id:'doddabetta',number:'7',title:'Doddabetta + carrot stalls',time:'9–10:15 am',dur:'1 hr 15',cat:'Peak views',costShort:'₹10 entry',
+    leg:'5 km · 15 min down to the Tea Factory',
     why:'The carrot-selling peak. Morning views, photos, a warm snack.',
     cost:'Listed entry ₹10 per person.',
-    detail:'About 9 km from town. Visibility depends on fog; keep the walking light. Carrot stalls are a likely match, not a guarantee.',
+    detail:'About 10 km from town. Visibility depends on fog; keep the walking light. Carrot stalls are a likely match, not a guarantee.',
     alt:'View across wooded hills and Ooty from Doddabetta',credit:'Photo: Ooty Tourism',
     url:'https://ootytourism.co.in/doddabetta-ooty',
     map:'https://www.google.com/maps/search/?api=1&query=Doddabetta+Peak&query_place_id=ChIJQ04Nnv-VqDsReeHdtrfB-qw'},
-   {id:'factory',number:'12',title:'Tea Factory, flavoured tea',time:'10:45–11:15 am · optional',cat:'Short tasting, not another tour',costShort:'₹20–50 entry',
+   {id:'factory',number:'8',title:'Tea Factory, flavoured tea',time:'10:45–11:15 am · optional',dur:'30 min',cat:'Short tasting, not another tour',costShort:'₹20–50 entry',
+    leg:'4 km · 12 min to town for lunch · garden after',
     why:'The likely match for the flavoured-tea memory. A quick taste on the way down, not a repeat tour.',
     cost:'Published entry about ₹20–50 each; tasting not promised as free.',
     detail:'Doddabetta Road. Tamil Nadu Tourism lists cardamom, masala, ginger and green tea. Skip the second tour and chocolate shopping.',
     alt:'Entrance steps and exterior of the Ooty Tea Factory',credit:'Photo: Ooty Tourism',
     url:'https://www.tamilnadutourism.tn.gov.in/destinations/tea-museum--tea-factory-ooty',
     map:'https://www.google.com/maps/search/?api=1&query=The+Tea+Factory+%26+The+Tea+Museum&query_place_id=ChIJjbwkQPC9qDsR_ATd9VDaHtg'},
-   {id:'garden',number:'13',title:'Botanical Garden',time:'2–3:15 pm',cat:'Garden + photos',costShort:'₹100 entry',
+   {id:'garden',number:'9',title:'Botanical Garden',time:'2–3:15 pm',dur:'1 hr 15',cat:'Garden + photos',costShort:'₹100 entry',
+    leg:'2 km · 8 min to Le Café',
     why:'After lunch, the lower garden slowly. Lawns, old trees and time for photos.',
     cost:'Listed adult entry ₹100 each.',
     detail:'Keep to the lower paths rather than the whole slope. Flowers in the photo are seasonal, not a promise of December blooms.',
     alt:'Pink and white flowers in the Botanical Garden',credit:'Photo: Ooty Tourism',
     url:'https://ootytourism.co.in/ooty-botanical-gardens',
     map:'https://www.google.com/maps/search/?api=1&query=Government+Botanical+Garden&query_place_id=ChIJfcu8W-u9qDsRj7OFxEygZH0'},
-   {id:'cafe',number:'14',title:'Le Café, Littlearth Square',time:'3:45–5 pm',cat:'The café stop',costShort:'₹800–1,400 for two, est.',
+   {id:'cafe',number:'10',title:'Le Café, Littlearth Square',time:'3:45–5 pm',dur:'1 hr 15',cat:'The café stop',costShort:'₹800–1,400 for two, est.',
+    leg:'evening free · stay is nearby in town',
     why:'The café pick: open-air courtyard, coffee, bakery treats and brick-oven pizza. A proper sit-down break.',
     cost:'Plan ₹800–1,400 for two, estimate. Coffee + pastry light; shared pizza if hungry.',
     detail:"Commissioner's Road. Outdoor seating, so warm layers or an indoor fallback in rain.",
@@ -263,7 +282,7 @@ const days=[
     map:'https://www.google.com/maps/search/?api=1&query=Le+Cafe&query_place_id=ChIJSTzAkCW9qDsR0LNMVr0pIqA'}
   ],
   extras:[
-   {id:'rose-garden',letter:'A',slot:3,title:'Government Rose Garden',time:'5:15–6 pm',cat:'Extra · evening garden',costShort:'₹75 entry',
+   {id:'rose-garden',letter:'A',slot:3,title:'Government Rose Garden',time:'5:15–6 pm',dur:'45 min',cat:'Extra · evening garden',costShort:'₹75 entry',
     why:'Award-winning rose terraces on the slope, an easy add after the café if energy is left.',
     cost:'Listed ₹75 per adult; camera extra. Open 7 am–6:30 pm.',
     detail:'Sloped terraces — take the upper paths slowly. December blooms vary.',
@@ -273,32 +292,35 @@ const days=[
   ]},
 
  {id:'d12',dow:'Sat',num:'12',chip:'Pykara',title:'Meadows and Pykara, then homeward',
-  note:'Check out, leave bags with the host if agreed, start about 9 am. Back in town by 5 pm.',
+  note:'Check out, leave bags with the host if agreed, start about 9 am. 9th Mile is about 14.5 km · 35 min. Back in town by 5 pm.',
   stops:[
-   {id:'wenlock',number:'15',title:'Wenlock Downs, 9th Mile',time:'10–10:30 am · optional',cat:'Grassland photo stop',costShort:'₹50 entry',
+   {id:'wenlock',number:'11',title:'Wenlock Downs, 9th Mile',time:'10–10:30 am · optional',dur:'30 min',cat:'Grassland photo stop',costShort:'₹50 entry',
+    leg:'7 km · 20 min to Pykara Falls',
     why:'Open rolling meadows on the Pykara road, different from the town gardens and lake.',
     cost:'Listed entry ₹50 each.',
     detail:'A short stop; the uphill walk is skippable. Photo shows sunset; this visit is morning.',
     alt:'Rolling meadows and distant hills at 9th Mile near sunset',credit:'Photo: Ooty Tourism',
     url:'https://www.tamilnadutourism.tn.gov.in/destinations/shooting-point-ooty',
     map:'https://www.google.com/maps/search/?api=1&query=Ticket+Counter+-+9th+Mile+Shooting+Spot+%7C+Ooty&query_place_id=ChIJ98wkwgqjqDsRLlaOzwcd5y0'},
-   {id:'falls',number:'16',title:'Pykara Falls',time:'11 am–noon',cat:'Waterfall views',costShort:'₹40 entry',
+   {id:'falls',number:'12',title:'Pykara Falls',time:'11 am–noon',dur:'1 hr',cat:'Waterfall views',costShort:'₹40 entry',
+    leg:'2 km · 5 min to Pykara Lake',
     why:'The main Pykara outing. Time at the viewing area and photos, no climbing on wet rocks.',
     cost:'Listed entry ₹40 each.',
     detail:'Paths and steps can be uneven or slippery. Water flow depends on recent conditions.',
     alt:'Pykara river flowing over broad rocky ledges',credit:'Photo: Ooty Tourism',
     url:'https://ootytourism.co.in/pykara-waterfalls-ooty',
     map:'https://www.google.com/maps/search/?api=1&query=Pykara+Waterfall&query_place_id=ChIJ9-4YWbCjqDsR7Kni0eNOneE'},
-   {id:'pykara',number:'17',title:'Pykara Lake',time:'12:30–1:30 pm',cat:'Reservoir scenery',costShort:'₹10 entry',
+   {id:'pykara',number:'13',title:'Pykara Lake',time:'12:30–1:30 pm',dur:'1 hr',cat:'Reservoir scenery',costShort:'₹10 entry',
+    leg:'about 22 km · 1 hr back to town · bags by 5 pm',
     why:'The quiet reservoir for the scenery, then lunch. Ooty Lake is already the boating stop.',
     cost:'Listed entry ₹10 each; no boat budgeted.',
-    detail:'Start back about 2:30 pm; roughly 24 km / 1 hr 10 min to town. Bags collected by 5 pm, no last-minute dash.',
+    detail:'Start back about 2:30 pm; roughly 22 km / 1 hr to town. Bags collected by 5 pm, no last-minute dash.',
     alt:'Green banks and wooded hills around Pykara reservoir',credit:'Photo: Ooty Tourism',
     url:'https://www.tamilnadutourism.tn.gov.in/destinations/pykara-ooty',
     map:'https://www.google.com/maps/search/?api=1&query=Pykara+Lake+Boat+House&query_place_id=ChIJ3YuiDCy9qDsRGtdKUSP4p7U'}
   ],
   extras:[
-   {id:'pykara-boat',letter:'A',slot:3,title:'Pykara Lake boating',time:'12:30–1 pm',cat:'Extra · second boat ride',costShort:'price at counter',
+   {id:'pykara-boat',letter:'A',slot:3,title:'Pykara Lake boating',time:'12:30–1 pm',dur:'30 min',cat:'Extra · second boat ride',costShort:'price at counter',
     why:'The boat house at Pykara runs motor and speed boats if a second ride on still water sounds good.',
     cost:'Not budgeted; confirm price at the counter.',
     detail:'Swaps with the quiet lake hour, so the drive back still starts 2:30 pm.',
@@ -309,7 +331,7 @@ const days=[
   banner:true},
 
  {id:'back',dow:'Sun',num:'13',chip:'Back',title:'Night bus back, wake up in Bengaluru',
-  note:'Board Sat 12 Dec night. All of these are sleepers, so the morning is back home on Sun 13 Dec. Not booked yet.',
+  note:'Board Sat 12 Dec night. About 270 km, 7–8 hrs overnight. All of these are sleepers, so the morning is back home on Sun 13 Dec. Not booked yet.',
   type:'options',leg:'back',
   options:[
    {number:3,title:'MMK A/C Sleeper, 7:45 pm',rec:true,price:'₹1,149',per:'per person',facts:['Lands in Bengaluru 5:25 am Sunday','Best rated here: 4.5★ (467)','24 buses listed for Sat Dec 12']},
@@ -383,7 +405,8 @@ function openStop(dayId,sid){
     <div class="sheet-body">
       <div class="sh-kick">${esc(kick)}</div>
       <h3>${esc(st.title)}</h3>
-      <div class="sh-meta">${esc(st.time)}</div>
+      <div class="sh-meta">${esc(st.time)}${st.dur?(' · about '+esc(st.dur)+' there'):''}</div>
+      ${st.leg?`<div class="sh-leg">→ ${esc(st.leg)}</div>`:'<div style="height:6px"></div>'}
       <div class="sh-chips"><span class="sh-chip">${esc(st.cat)}</span><span class="sh-chip warn">${esc(st.costShort)}</span></div>
       <p>${esc(st.why)}</p>
       <p class="cost">${esc(st.cost)}</p>
@@ -397,8 +420,8 @@ function openStop(dayId,sid){
 const NOTES={
  costs:{t:'Costs at a glance',h:'<p><b>Toy train ×2:</b> booked, paid already.</p><p><b>Buses both ways ×2:</b> about ₹3,400–4,900. Recommended pair ₹3,688, live listings 22 Nov, before fees.</p><p><b>Stay Dec 9–12:</b> 3 nights; set the Airbnb dates before booking.</p><p class="sh-credit">Not the whole-trip total: stay, cabs/autos, meals, entries and boating are extra. Food budgets are estimates; entry prices are listings to reconfirm at the counter.</p>'},
  book:{t:'Still to book',h:'<p><b>Buses:</b> pick one each way in the Tue 8 and Sun 13 tabs. Not booked yet.</p><p><b>Airbnb:</b> set dates to Dec 9–12; ask the host about early bag drop on the 9th and keeping bags till evening on the 12th.</p><p><b>Scooter:</b> fully optional. This plan works with cabs and autos.</p>'},
- know:{t:'Good to know',h:'<p>December in Ooty: about 21°C by day, 9°C at night. Pack warm layers.</p><p>Re-check train 56143 on IRCTC a day before; hill trains can change.</p><p>Hill paths, boat boarding and garden slopes are uneven in places: cabs and autos over long walks, and skip any stretch that feels like too much.</p><p>Highfield asks for an advance visit reservation; confirm before the Coonoor morning. All activity windows are suggestions, not appointments.</p>'},
- src:{t:'Sources & freshness',h:'<p>Place photos and entry listings: Ooty Tourism, linked on each place. Highfield ticket pages checked 22 Nov 2026 (₹50 adult / ₹150 special). Sim\'s Park and Rose Garden fees from Ooty Tourism pages (₹75 adult each). Tea flavours: Tamil Nadu Tourism.</p><p>Café and dinner: Littlearth official venue pages and menus; <a href="https://www.newindianexpress.com/xplore/2024/Jun/06/eating-your-way-through-ooty">New Indian Express food guide</a>; <a href="https://timesofindia.indiatimes.com/travel/ooty/earls-secret/ps33024535.cms">Times Travel on Earl\'s Secret</a>. No table or cake arranged.</p><p>Buses: redBus dated searches, 22 Nov 2026. Drive times: Google Maps estimates, 22 Nov, not guaranteed hill-road conditions.</p>'}
+ know:{t:'Good to know',h:'<p>December in Ooty: about 21°C by day, 9°C at night. Pack warm layers.</p><p>Re-check train 56143 on IRCTC a day before; hill trains can change.</p><p>Hill paths, boat boarding and garden slopes are uneven in places: cabs and autos over long walks, and skip any stretch that feels like too much.</p><p>Distances and drive times are calm-traffic estimates measured from the town centre; where your stay is shifts them a little.</p><p>Highfield asks for an advance visit reservation; confirm before the Coonoor morning. All activity windows are suggestions, not appointments.</p>'},
+ src:{t:'Sources & freshness',h:'<p>Place photos and entry listings: Ooty Tourism, linked on each place. Charing Cross photo: Wikimedia Commons (CC BY-SA 3.0). Highfield ticket pages checked 22 Nov 2026 (₹50 adult / ₹150 special). Sim\'s Park and Rose Garden fees from Ooty Tourism pages (₹75 adult each). Tea flavours: Tamil Nadu Tourism.</p><p>Café and dinner: Littlearth official venue pages and menus; <a href="https://www.newindianexpress.com/xplore/2024/Jun/06/eating-your-way-through-ooty">New Indian Express food guide</a>; <a href="https://timesofindia.indiatimes.com/travel/ooty/earls-secret/ps33024535.cms">Times Travel on Earl\'s Secret</a>. No table or cake arranged.</p><p>Buses: redBus dated searches, 22 Nov 2026. Distances: Tamil Nadu Tourism (Pykara about 20–22 km, falls to lake 2 km; 9th Mile 14.5 km via tourdeooty) and Google Maps estimates, checked 22–23 Nov, not guaranteed hill-road conditions.</p>'}
 };
 function openDayInfo(dayId){
   const d=days.find(x=>x.id===dayId);if(!d)return;
@@ -417,6 +440,7 @@ function stopCard(st,dayId,isExtra,inPlan){
   card.dataset.sid=st.id;card.dataset.day=dayId;card.dataset.open='1';
   const badge=st.number?`<span class="num">${st.number}</span>`:`<span class="num letter">${st.letter}</span>`;
   const add=isExtra?`<button class="addbtn ${inPlan?'added':''}" data-add="${st.id}">${inPlan?'Added ✓':'+ Add'}</button>`:'';
+  const legLine=st.dur?`<span class="cm2">${esc(st.dur)} there${st.leg?(' → '+esc(st.leg)):''}</span>`:'';
   card.innerHTML=`
     <img src="${IMGS[st.id]}" alt="${esc(st.alt)}" loading="lazy">
     <div class="shade"></div>
@@ -424,6 +448,7 @@ function stopCard(st,dayId,isExtra,inPlan){
     <div class="cinfo">
       <span class="ct">${esc(st.title)}</span>
       <span class="cm">${esc(st.time)} · ${esc(st.costShort)}</span>
+      ${legLine}
     </div>`;
   return card;
 }
