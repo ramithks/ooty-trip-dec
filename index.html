@@ -1,181 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ooty trip · Dec 9–12</title>
-<style>
-:root{
-  --bg:#0a0e0c;
-  --card:#121814; --card2:#172019;
-  --ink:#eef4ef; --mut:#93a596; --faint:#67796c;
-  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-  --grn:#43d68f; --grn-ink:#0a0e0c;
-  --amber:#e8b96a; --ember:#ef7d4e;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:var(--bg);color:var(--ink);line-height:1.4;
-  -webkit-font-smoothing:antialiased;
-}
-img{display:block}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-button:focus-visible,a:focus-visible{outline:2px solid var(--grn);outline-offset:2px;border-radius:8px}
-a{color:var(--grn);text-decoration:none}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* header */
-.top{position:sticky;top:0;z-index:30;background:rgba(10,14,12,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.top-in{max-width:720px;margin:0 auto;padding:12px 16px 4px;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.top h1{font-size:19px;font-weight:800;letter-spacing:.2px}
-.top h1 span{color:var(--grn);font-weight:600}
-.top .sub{font-size:12px;color:var(--mut);white-space:nowrap}
-.pills{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 11px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.pills::-webkit-scrollbar{display:none}
-.pill{flex:0 0 auto;padding:7px 13px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:700;white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
-.pill small{display:block;font-size:10px;font-weight:500;color:var(--faint)}
-.pill.on{background:var(--grn);border-color:var(--grn);color:var(--grn-ink)}
-.pill.on small{color:rgba(10,14,12,.7)}
-.picked-line{max-width:720px;margin:0 auto;padding:0 16px 9px;font-size:12px;color:var(--amber);display:none}
-.picked-line.on{display:block}
-
-main{max-width:720px;margin:0 auto;padding:8px 16px 80px}
-.day{display:none}
-.day.on{display:block;animation:fade .2s ease}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.day-head{margin:14px 2px 3px;display:flex;gap:12px;align-items:center}
-.date-badge{flex:0 0 auto;width:50px;height:50px;border-radius:15px;background:linear-gradient(150deg,var(--grn),#1d9e63);color:var(--grn-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;box-shadow:0 4px 14px rgba(67,214,143,.22)}
-.date-badge .dow{font-size:10px;text-transform:uppercase;letter-spacing:.7px;opacity:.8;font-weight:700}
-.date-badge .num{font-size:20px;font-weight:800}
-.day-head h2{font-size:17.5px;font-weight:750;flex:1 1 auto;min-width:0}
-.iday{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line2);color:var(--mut);font-size:13px;font-weight:750;font-style:italic;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center}
-
-/* photo cards */
-.card{position:relative;border-radius:20px;overflow:hidden;margin-bottom:12px;border:1px solid var(--line);cursor:pointer;transition:transform .12s ease,border-color .15s}
-.card:active{transform:scale(.985)}
-.card>img{width:100%;height:196px;object-fit:cover}
-.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,8,.18) 0%,rgba(6,9,8,0) 32%,rgba(6,9,8,.55) 62%,rgba(6,9,8,.9) 100%);pointer-events:none}
-.num{position:absolute;top:11px;left:11px;width:31px;height:31px;border-radius:50%;background:linear-gradient(150deg,var(--ember),#c8542c);color:#fff;font-weight:800;font-size:14.5px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.45)}
-.num.letter{background:linear-gradient(150deg,var(--amber),#b9832f);color:#241703}
-.cinfo{position:absolute;left:13px;right:13px;bottom:11px;pointer-events:none}
-.ct{display:block;font-size:16.5px;font-weight:750;text-shadow:0 1px 8px rgba(0,0,0,.55)}
-.cm{display:block;font-size:12.5px;color:#cfdad1;margin-top:2px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-.cm2{display:block;font-size:11.5px;color:#9fdcb9;margin-top:2px;font-weight:650;text-shadow:0 1px 6px rgba(0,0,0,.65)}
-.addbtn{position:absolute;top:11px;right:11px;font-size:12.5px;font-weight:750;color:var(--grn);background:rgba(10,14,12,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1.5px solid var(--grn);border-radius:999px;padding:5px 13px}
-.addbtn.added{color:var(--grn-ink);background:var(--grn)}
-.tap-hint{position:absolute;bottom:11px;right:13px;font-size:11px;color:rgba(238,244,239,.75);pointer-events:none}
-
-/* extras section */
-.extras-title{font-size:12px;font-weight:750;color:var(--amber);margin:18px 2px 9px;letter-spacing:.5px;text-transform:uppercase}
-
-/* option rows (buses) */
-.opt{display:flex;gap:11px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px;transition:border-color .15s,box-shadow .15s}
-.opt.picked{border-color:var(--grn);box-shadow:0 0 0 3px rgba(67,214,143,.13)}
-.onum{flex:0 0 auto;width:27px;height:27px;border-radius:50%;background:var(--card2);border:1px solid var(--line2);color:var(--mut);font-size:12.5px;font-weight:750;display:flex;align-items:center;justify-content:center}
-.omain{flex:1 1 auto;min-width:0}
-.ot{font-size:14.5px;font-weight:700}
-.rec{display:inline-block;vertical-align:1px;margin-left:6px;font-size:9.5px;background:var(--grn);color:var(--grn-ink);border-radius:999px;padding:2px 8px;font-weight:800;letter-spacing:.3px;text-transform:uppercase}
-.om{font-size:12px;color:var(--mut);margin-top:2px}
-.op{font-size:13px;color:var(--amber);font-weight:700;margin-top:4px}
-.op small{color:var(--mut);font-weight:500}
-.pick{flex:0 0 auto;font-size:12.5px;font-weight:750;color:var(--grn);border:1.5px solid var(--grn);border-radius:999px;padding:6px 14px;transition:background .15s,color .15s}
-.opt.picked .pick{background:var(--grn);color:var(--grn-ink)}
-.src-note{font-size:11.5px;color:var(--faint);margin:2px 2px 8px}
-
-/* go-home banner */
-.gohome{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;background:linear-gradient(140deg,rgba(232,185,106,.13),rgba(232,185,106,.05));border:1.5px solid rgba(232,185,106,.3);border-radius:16px;padding:13px 15px;text-align:left;margin:6px 0 10px}
-.gohome .m{font-size:14px;font-weight:750;color:var(--amber)}
-.gohome .arr{color:var(--amber);font-size:17px;font-weight:700}
-
-/* footer */
-.fine{max-width:720px;margin:0 auto;padding:0 16px 44px}
-.fine-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-.fine-btn{font-size:12px;color:var(--mut);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-weight:650}
-.updated{font-size:11px;color:var(--faint);text-align:center;margin:22px 0 6px}
-
-/* bottom sheet */
-.sheet-wrap{position:fixed;inset:0;z-index:60}
-.sheet-wrap[hidden]{display:none}
-.backdrop{position:absolute;inset:0;background:rgba(4,6,5,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.sheet{position:absolute;left:0;right:0;bottom:0;max-width:720px;margin:0 auto;max-height:88dvh;background:var(--card2);border-radius:22px 22px 0 0;border:1px solid var(--line2);border-bottom:0;transform:translateY(102%);transition:transform .28s cubic-bezier(.32,.72,.35,1);display:flex;flex-direction:column;overflow:hidden}
-.sheet.show{transform:translateY(0)}
-.grip{flex:0 0 auto;padding:9px 0 7px;touch-action:none;cursor:grab}
-.grip span{display:block;width:42px;height:4.5px;border-radius:999px;background:var(--line2);margin:0 auto}
-.x{position:absolute;top:20px;right:13px;z-index:2;width:34px;height:34px;border-radius:50%;background:rgba(10,14,12,.66);backdrop-filter:blur(6px);color:var(--amber);font-size:19px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.sheet-scroll{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-.sheet-img{width:100%;height:212px;object-fit:cover}
-.sheet-body{padding:14px 17px 34px}
-.sh-kick{font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.7px;font-weight:750;margin-bottom:4px}
-.sheet-body h3{font-size:19px;font-weight:800;margin-bottom:3px}
-.sh-meta{font-size:13px;color:var(--mut);margin-bottom:4px}
-.sh-leg{font-size:12.5px;color:var(--amber);font-weight:650;margin-bottom:10px}
-.sh-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.sh-chip{font-size:11.5px;background:rgba(67,214,143,.12);color:#62d8a2;border:1px solid rgba(67,214,143,.2);border-radius:999px;padding:3px 10px;font-weight:650}
-.sh-chip.warn{background:rgba(239,125,78,.12);color:#f09a70;border-color:rgba(239,125,78,.22)}
-.sheet-body p{font-size:13.5px;color:#c2d1c6;margin-bottom:9px}
-.sheet-body p.cost{color:var(--ink);font-weight:650}
-.ticket{background:linear-gradient(140deg,#123524,#0d241a 60%,#0c1d15);border:1px solid rgba(67,214,143,.3);border-radius:15px;padding:12px 13px;margin:4px 0 11px}
-.ticket .trow{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.ticket .t{font-size:20px;font-weight:800}
-.ticket .arrow{color:var(--grn);font-weight:700}
-.ticket .stns{font-size:12.5px;color:var(--mut)}
-.ticket .tnote{font-size:12px;color:var(--mut);margin-top:8px}
-.ticket .tnote b{color:var(--amber)}
-.sh-links{font-size:13.5px;margin-top:2px}
-.sh-links a{font-weight:700}
-.sh-credit{font-size:11px;color:var(--faint);margin-top:8px}
-@media(min-width:640px){
-  .card>img{height:225px}
-  .sheet-img{height:250px}
-}
-</style>
-</head>
-<body>
-
-<header class="top">
-  <div class="top-in">
-    <h1>Ooty <span>Dec 9–12</span></h1>
-    <div class="sub">4 days · 13 places · train booked ✓</div>
-  </div>
-  <nav class="pills" id="pills"></nav>
-  <div class="picked-line" id="pickedLine"></div>
-</header>
-
-<main id="main"></main>
-
-<footer class="fine">
-  <div class="fine-row">
-    <button class="fine-btn" data-note="costs">Costs</button>
-    <button class="fine-btn" data-note="book">Still to book</button>
-    <button class="fine-btn" data-note="know">Good to know</button>
-    <button class="fine-btn" data-note="src">Sources</button>
-  </div>
-  <div class="updated">Updated 23 Nov 2026 · fares are listings, not paid totals</div>
-</footer>
-
-<div class="sheet-wrap" id="sheetWrap" hidden>
-  <div class="backdrop" data-close="1"></div>
-  <div class="sheet" id="sheet">
-    <div class="grip" id="grip"><span></span></div>
-    <button class="x" data-close="1" aria-label="Close">×</button>
-    <div class="sheet-scroll" id="sheetScroll"></div>
-  </div>
-</div>
-
-<script src="photos-a.js"></script>
-<script src="photos-b.js"></script>
-<script>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101719"><title>Ooty · Dec 9–12</title><style>
+:root{color-scheme:dark;--bg:#101719;--surface:#192326;--ink:#f4f2e9;--mut:#a4b3b3;--lime:#d4ec94;--line:#2d3b3d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.45}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;color:inherit;border:0}button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offset:3px}a{color:var(--lime)}.app{max-width:850px;margin:auto;padding:0 20px 110px}.brand{display:flex;justify-content:space-between;align-items:center;height:65px;font-size:12px;letter-spacing:1.6px;text-transform:uppercase}.brand span{color:var(--mut);font-size:11px;letter-spacing:0}.hero{position:relative;overflow:hidden;border-radius:24px;height:200px;background:#243e34}.hero img{width:100%;height:100%;object-fit:cover;object-position:center 50%}.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0a191cbd,transparent),linear-gradient(0deg,#091417d9,transparent 80%)}.hero-text{position:absolute;z-index:1;left:22px;bottom:22px}.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);font-weight:700}h1{font-size:52px;letter-spacing:-3px;line-height:1;margin:8px 0 12px;font-weight:650}h1 i{font-family:Georgia,serif;font-weight:400}.hero p{margin:0;color:#e5ebe3;font-size:12px}.stats{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:17px 0;color:var(--mut);font-size:11px}.stats b{color:var(--ink);font-weight:600}.day-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:22px 0}.day-btn{min-height:66px;background:var(--surface);border:1px solid var(--line);border-radius:14px;text-align:left;padding:9px 11px;color:var(--mut);font-size:10px}.day-btn strong{display:block;font-size:20px;line-height:1.15;color:var(--ink)}.day-btn.active{background:var(--lime);border-color:var(--lime);color:#354025}.day-btn.active strong{color:#162318}.day-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px;gap:12px}.day-top h2{font-size:23px;letter-spacing:-.7px;line-height:1.2;margin:4px 0}.round{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:transparent;flex-shrink:0;font-size:19px}.route-intro{border-left:2px solid var(--lime);margin:0 0 18px 5px;padding-left:12px;font-size:11px;color:var(--mut)}.route-intro b{color:var(--ink)}.stop{position:relative;display:grid;grid-template-columns:100px 1fr;min-height:114px;border-radius:17px;overflow:hidden;background:var(--surface);border:1px solid var(--line);cursor:pointer}.stop img{width:100%;height:100%;object-fit:cover}.stop .body{padding:15px 30px 14px 14px}.stop h3{font-size:15px;line-height:1.3;margin:7px 0 4px;letter-spacing:-.3px;font-weight:650}.time{font-size:10px;color:var(--lime);font-weight:600}.category{font-size:10px;color:var(--mut)}.number{position:absolute;left:8px;top:8px;background:#0d191bdb;border:1px solid #ffffff44;border-radius:50%;width:24px;height:24px;font-size:11px;display:grid;place-items:center}.chevron{position:absolute;right:12px;top:50%;font-size:20px;color:var(--mut)}.leg{font-size:10px;color:var(--mut);margin:0 0 0 20px;padding:11px 0 11px 15px;border-left:1px dashed #52615a;line-height:1.5}.extras{margin-top:23px;border-top:1px solid var(--line);padding-top:16px}.extras summary{cursor:pointer;font-size:12px;color:var(--mut);padding:8px 0 16px}.extra{display:flex;gap:12px;align-items:center;background:var(--surface);border-radius:14px;margin-bottom:10px;padding:10px}.extra img{width:54px;height:54px;border-radius:9px;object-fit:cover}.extra div{flex:1;font-size:12px}.extra small{display:block;color:var(--mut);font-size:10px;margin-top:4px}.smallbtn{min-height:44px;padding:8px 13px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--lime);font-size:11px}.banner{display:flex;justify-content:space-between;align-items:center;width:100%;border-radius:15px;background:var(--lime);color:#18241a;text-align:left;padding:16px;margin-top:16px;font-size:13px;font-weight:650}.banner small{font-weight:400;display:block;margin-top:3px}.dock{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:440px;display:flex;background:#223034f5;border:1px solid #ffffff1c;border-radius:20px;z-index:15;padding:6px;box-shadow:0 10px 30px #0006;backdrop-filter:blur(20px)}.dock button{flex:1;background:transparent;color:var(--mut);border-radius:14px;min-height:48px;font-size:12px}.dock button.active{background:var(--lime);color:#162318;font-weight:650}.panel{display:none}.panel.active{display:block}.travel-tabs{display:flex;gap:8px;margin:22px 0}.travel-tabs button{flex:1;background:var(--surface);padding:13px;border-radius:13px;border:1px solid var(--line);font-size:12px}.travel-tabs .active{border-color:var(--lime);color:var(--lime)}.bus{padding:18px;background:var(--surface);border-radius:18px;border:1px solid var(--line);margin:12px 0}.bus h3{font-size:16px;margin:5px 0 14px}.bus .fare{font-size:20px;letter-spacing:-.5px}.bus .fare small{font-size:10px;color:var(--mut);letter-spacing:0;display:block}.bus details{border-top:1px solid var(--line);margin-top:14px;padding-top:12px;font-size:12px;color:var(--mut)}summary{cursor:pointer}.bus details p{margin-bottom:0}.bus .row{display:flex;gap:12px;justify-content:space-between;align-items:center}.muted{font-size:11px;color:var(--mut)}.notice{padding:14px;border:1px solid var(--line);border-radius:13px;font-size:12px;color:var(--mut);margin:18px 0}.essentials{margin-top:24px}.essential{display:flex;align-items:center;justify-content:space-between;min-height:70px;border-bottom:1px solid var(--line);background:transparent;width:100%;text-align:left;font-size:15px}.essential span{color:var(--mut)}.foot{font-size:9px;color:#7d9291;text-align:center;margin-top:25px}.scrim{position:fixed;inset:0;background:#0009;backdrop-filter:blur(5px);z-index:30}.scrim[hidden]{display:none}.sheet{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:650px;max-height:90dvh;background:var(--surface);border-radius:24px 24px 0 0;overflow:auto;overscroll-behavior:contain}.sheet img{width:100%;height:195px;object-fit:cover}.sheet-content{padding:22px 24px 35px}.sheet h2{font-size:25px;letter-spacing:-.6px;line-height:1.2;margin:7px 0 12px}.sheet p{font-size:13px;color:#c0cdca;line-height:1.65}.sheet .meta{color:var(--lime);font-size:12px}.close{position:sticky;top:12px;float:right;margin:12px 12px -52px 0;z-index:2;width:40px;height:40px;background:#101719eb;border-radius:50%;font-size:22px}.sheet-actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}.sheet-actions a,.sheet-actions button{padding:12px 15px;background:#263738;border:1px solid #405252;border-radius:10px;font-size:12px;text-decoration:none}.credit{font-size:9px!important;color:#8ea39d!important}.skipped{opacity:.55}.skipped h3{text-decoration:line-through}.train-ticket{border:1px solid #668551;border-radius:14px;padding:15px;margin:18px 0;color:var(--lime)}.train-ticket b{font-size:24px;display:block}.train-ticket small{font-size:11px}.empty{padding:25px;text-align:center;color:var(--mut)}@media(min-width:700px){.app{padding-left:40px;padding-right:40px}.hero{height:270px}.hero-text{left:30px;bottom:28px}h1{font-size:70px}.stop{grid-template-columns:160px 1fr;min-height:136px}.stop .body{padding:23px}.stop h3{font-size:19px}.time,.category,.leg{font-size:12px}.day-btn{min-height:75px}.day-btn strong{font-size:24px}.stats{font-size:12px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}@media(max-width:350px){.app{padding-left:14px;padding-right:14px}.stop{grid-template-columns:82px 1fr}.stop .body{padding-left:11px}.stop h3{font-size:14px}.day-btn{padding-left:9px}.stats{font-size:10px}}
+</style></head><body><div class="app"><header class="brand">The Nilgiris <span>08–13 Dec 2026</span></header><section class="hero"><img id="heroImg" alt="Rolling hills near Ooty"><div class="hero-text"><span class="eyebrow">A little mountain escape</span><h1>Ooty, <i>slowly.</i></h1><p>9–12 December · back Sunday morning</p></div></section><div class="stats"><span><b>4</b> days</span><span><b>3</b> nights</span><span><b>Train</b> booked ✓</span></div><div id="plan" class="panel active"><nav id="days" class="day-nav" aria-label="Choose day"></nav><main id="itinerary"></main></div><section id="buses" class="panel"><nav class="travel-tabs"><button id="outTab" onclick="setLeg('go')">8 Dec · out</button><button id="backTab" onclick="setLeg('back')">12 Dec · night back</button></nav><div id="busList"></div></section><section id="essentials" class="panel"><div class="essentials"><span class="eyebrow">Before the hills</span><h2>The useful stuff</h2><button class="essential" onclick="showNote('costs')">Costs <span>↗</span></button><button class="essential" onclick="showNote('book')">Still to book <span>↗</span></button><button class="essential" onclick="showNote('know')">Good to know <span>↗</span></button><button class="essential" onclick="showNote('src')">Sources & credits <span>↗</span></button></div></section><p class="foot">Your add, skip and bus picks save only on this device.</p></div><nav class="dock" aria-label="Trip sections"><button class="active" data-panel="plan">The plan</button><button data-panel="buses">Buses</button><button data-panel="essentials">Useful stuff</button></nav><div class="scrim" id="modal" hidden><div class="sheet" role="dialog" aria-modal="true" aria-label="Trip details"><button class="close" onclick="closeModal()" aria-label="Close details">×</button><div id="modalBody"></div></div></div><script src="photos-a.js"></script><script src="photos-b.js"></script><script>
 const IMGS=Object.assign({},IMGS_A,IMGS_B);
-
 const days=[
  {id:'go',dow:'Tue',num:'8',chip:'Go',title:'Night bus from Bengaluru',
-  note:'Leave about 10:30–11 pm, sleep on the bus, wake up in the hills. About 270 km, 7–8 hrs overnight. Not booked yet — pick one below.',
+  note:'Leave about 10:30–11 pm, sleep on the bus, wake up in the hills. Overnight road journey; duration depends on the selected service. Not booked yet — pick one below.',
   type:'options',leg:'go',
   options:[
-   {number:1,title:'Night AC sleeper bus',rec:true,price:'₹695–1,299',per:'per person',facts:['Leaves about 10:30–11 pm, lands 6:30–8 am','Pick: Asian Xpress 10:40 pm, ₹695, 4.4★ (412), free date change','22 buses listed for Tue Dec 8']},
-   {number:2,title:'KSRTC government bus',rec:false,price:'from ₹840',per:'per person',facts:['7 KSRTC buses listed for Dec 8','Budget pick, plainer seats']}
+   {number:1,title:'Night AC sleeper bus',rec:true,price:'Earlier ₹695–1,299',per:'per person · listing, before fees',facts:['Leaves about 10:30–11 pm, lands 6:30–8 am','Pick: Asian Xpress 10:40 pm, ₹695, 4.4★ (412), free date change','22 buses listed for Tue Dec 8']},
+   {number:2,title:'KSRTC · check sleeper type',rec:false,price:'Earlier from ₹840',per:'per person · listing, before fees',facts:['7 KSRTC buses listed for Dec 8','Budget pick, plainer seats']}
   ],
   src:'Book on <a href="https://www.redbus.in">redBus</a>, <a href="https://www.ixigo.com">ixigo</a> or <a href="https://www.ksrtc.in">ksrtc.in</a>. Live listings checked 22 Nov; fares move.'},
 
@@ -339,232 +172,34 @@ const days=[
   ],
   banner:true},
 
- {id:'back',dow:'Sun',num:'13',chip:'Back',title:'Night bus back, wake up in Bengaluru',
-  note:'Board Sat 12 Dec night. About 270 km, 7–8 hrs overnight. All of these are sleepers, so the morning is back home on Sun 13 Dec. Not booked yet.',
+ {id:'back',dow:'Sat',num:'12',chip:'Night bus',title:'Sat 12 night → Sun 13 morning',
+  note:'Board Sat 12 Dec night. Asian Xpress lists Majestic at 07:00 Sun 13 Dec, matching your 7–8 am target. Roughly 483–488 km on the listed route. Not booked yet.',
   type:'options',leg:'back',
   options:[
-   {number:3,title:'MMK A/C Sleeper, 7:45 pm',rec:true,price:'₹1,149',per:'per person',facts:['Lands in Bengaluru 5:25 am Sunday','Best rated here: 4.5★ (467)','24 buses listed for Sat Dec 12']},
-   {number:4,title:'Asian Xpress A/C Sleeper, 8:30 pm',rec:false,price:'₹995',per:'per person',facts:['Lands in Bengaluru 6:15 am Sunday','4.4★ (419), free date change']},
-   {number:5,title:'KSRTC government bus',rec:false,price:'from ₹762',per:'per person',facts:['9 KSRTC buses listed for Dec 12','Budget pick, plainer seats']}
+   {number:4,title:'Asian Xpress · 20:30 → 07:00',rec:true,price:'₹2,490 / pair',per:'adjacent upper berths · before fees',facts:['Sarkar Palace parking, Sat 12 Dec 20:30 → Majestic, Sun 13 Dec 07:00. Matches your 7–8 am target.','Upper pair ₹1,245 each; lower pair ₹1,295 each / ₹2,590 pair, before fees.','Free Cancellation add-on advertises 100% refund until Sat 12 Dec 14:30. Add-on price and final checkout terms still need checking. Do not treat this as a free-cancellation booking yet.','Standard policy: 90% before Fri 11 Dec 20:30; 75% until Sat 12 Dec 08:30; 50% until 14:30; then no refund.','Route shown via Coonoor, Mettupalayam, Sathyamangalam and Hosur, roughly 483–488 km. Pickup proximity needs the chosen hotel.']},
+   {number:3,title:'MMK · 19:45 → 05:35',rec:false,price:'₹2,798 / pair',per:'adjacent lower berths · before fees',facts:['Arrives Majestic Sun 13 Dec 05:35. Too early for your 7–8 am target.','Adjacent lower berths ₹1,399 each.','Refund add-on ₹130 per person; checkout says 12-hour cutoff, Sat 12 Dec 07:45. Another panel contradicts it. Confirm before relying on the refund.']}
   ],
-  src:'Live listings checked 22 Nov: 24 buses for Sat Dec 12; fares move. Allow the onward ride home after the drop.'}
+  src:'Checked 24 Nov 2026 · <a target="_blank" rel="noopener" href="https://www.redbus.in/bus-tickets/ooty-to-bangalore?fromCityId=254&toCityId=122&fromCityName=Ooty&toCityName=Bangalore&busType=Any&onward=12-Dec-2026">redBus · 12 Dec results ↗</a>. Prices and scheduled arrivals can change.'}
+
 ];
 
-/* state */
-let state={day:'go',picks:{},extras:{}};
-try{const s=localStorage.getItem('ooty-v1');if(s)state=Object.assign(state,JSON.parse(s));}catch(e){}
-function save(){try{localStorage.setItem('ooty-v1',JSON.stringify(state));}catch(e){}}
-
-const pillsEl=document.getElementById('pills');
-const mainEl=document.getElementById('main');
-const wrapEl=document.getElementById('sheetWrap');
-const sheetEl=document.getElementById('sheet');
-const gripEl=document.getElementById('grip');
-const scrollEl=document.getElementById('sheetScroll');
-
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-
-/* bottom sheet */
-function openSheet(html){
-  scrollEl.innerHTML=html;
-  scrollEl.scrollTop=0;
-  wrapEl.hidden=false;
-  sheetEl.style.transition='';sheetEl.style.transform='';
-  requestAnimationFrame(()=>sheetEl.classList.add('show'));
-  document.body.style.overflow='hidden';
-}
-function closeSheet(){
-  sheetEl.classList.remove('show');
-  document.body.style.overflow='';
-  setTimeout(()=>{wrapEl.hidden=true;scrollEl.innerHTML='';},300);
-}
-let dragY=0,dragD=0,dragging=false;
-gripEl.addEventListener('pointerdown',e=>{dragging=true;dragY=e.clientY;dragD=0;gripEl.setPointerCapture(e.pointerId);});
-gripEl.addEventListener('pointermove',e=>{
-  if(!dragging)return;
-  dragD=Math.max(0,e.clientY-dragY);
-  sheetEl.style.transition='none';
-  sheetEl.style.transform='translateY('+dragD+'px)';
-});
-function endDrag(){
-  if(!dragging)return;dragging=false;
-  sheetEl.style.transition='';sheetEl.style.transform='';
-  if(dragD>90)closeSheet();
-}
-gripEl.addEventListener('pointerup',endDrag);
-gripEl.addEventListener('pointercancel',endDrag);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!wrapEl.hidden)closeSheet();});
-
-function ticketBlock(){
-  return `<div class="ticket">
-    <div class="trow"><span class="t">12:35</span><span class="arrow">→</span><span class="t">1:45</span><span class="stns">Coonoor to Ooty · train 56143</span></div>
-    <div class="sh-chips" style="margin:9px 0 0"><span class="sh-chip">Booked ✓</span><span class="sh-chip">Confirmed ×2</span><span class="sh-chip">First Class</span></div>
-    <p class="tnote">At Coonoor station by <b>12:15 pm</b>, photo ID each.</p>
-  </div>`;
-}
-
-function openStop(dayId,sid){
-  const d=days.find(x=>x.id===dayId);
-  const all=[...(d.stops||[]),...(d.extras||[])];
-  const st=all.find(x=>x.id===sid);
-  if(!st)return;
-  const kick=(d.dow+' '+d.num)+' · '+(st.number?('Stop '+st.number):('Extra '+st.letter));
-  const img=IMGS[st.id]?`<img class="sheet-img" src="${IMGS[st.id]}" alt="${esc(st.alt)}">`:'';
-  openSheet(`${img}
-    <div class="sheet-body">
-      <div class="sh-kick">${esc(kick)}</div>
-      <h3>${esc(st.title)}</h3>
-      <div class="sh-meta">${esc(st.time)}${st.dur?(' · about '+esc(st.dur)+' there'):''}</div>
-      ${st.leg?`<div class="sh-leg">→ ${esc(st.leg)}</div>`:'<div style="height:6px"></div>'}
-      <div class="sh-chips"><span class="sh-chip">${esc(st.cat)}</span><span class="sh-chip warn">${esc(st.costShort)}</span></div>
-      <p>${esc(st.why)}</p>
-      <p class="cost">${esc(st.cost)}</p>
-      ${st.id==='train'?ticketBlock():''}
-      <p>${esc(st.detail)}</p>
-      <div class="sh-links"><a href="${st.url}" target="_blank" rel="noopener">Source</a>${st.map?` · <a href="${st.map}" target="_blank" rel="noopener">Map</a>`:''}</div>
-      <div class="sh-credit">${esc(st.credit)}</div>
-    </div>`);
-}
-
 const NOTES={
- costs:{t:'Costs at a glance',h:'<p><b>Toy train ×2:</b> booked, paid already.</p><p><b>Buses both ways ×2:</b> about ₹3,400–4,900. Recommended pair ₹3,688, live listings 22 Nov, before fees.</p><p><b>Stay Dec 9–12:</b> 3 nights; set the Airbnb dates before booking.</p><p class="sh-credit">Not the whole-trip total: stay, cabs/autos, meals, entries and boating are extra. Food budgets are estimates; entry prices are listings to reconfirm at the counter.</p>'},
- book:{t:'Still to book',h:'<p><b>Buses:</b> pick one each way in the Tue 8 and Sun 13 tabs. Not booked yet.</p><p><b>Airbnb:</b> set dates to Dec 9–12; ask the host about early bag drop on the 9th and keeping bags till evening on the 12th.</p><p><b>Scooter:</b> fully optional. This plan works with cabs and autos.</p>'},
- know:{t:'Good to know',h:'<p>December in Ooty: about 21°C by day, 9°C at night. Pack warm layers.</p><p>Re-check train 56143 on IRCTC a day before; hill trains can change.</p><p>Hill paths, boat boarding and garden slopes are uneven in places: cabs and autos over long walks, and skip any stretch that feels like too much.</p><p>Distances and drive times are calm-traffic estimates measured from the town centre; where your stay is shifts them a little.</p><p>Highfield asks for an advance visit reservation; confirm before the Coonoor morning. All activity windows are suggestions, not appointments.</p>'},
- src:{t:'Sources & freshness',h:'<p>Place photos and entry listings: Ooty Tourism, linked on each place. Charing Cross photo: Wikimedia Commons (CC BY-SA 3.0). Highfield ticket pages checked 22 Nov 2026 (₹50 adult / ₹150 special). Sim\'s Park and Rose Garden fees from Ooty Tourism pages (₹75 adult each). Tea flavours: Tamil Nadu Tourism.</p><p>Café and dinner: Littlearth official venue pages and menus; <a href="https://www.newindianexpress.com/xplore/2024/Jun/06/eating-your-way-through-ooty">New Indian Express food guide</a>; <a href="https://timesofindia.indiatimes.com/travel/ooty/earls-secret/ps33024535.cms">Times Travel on Earl\'s Secret</a>. No table or cake arranged.</p><p>Buses: redBus dated searches, 22 Nov 2026. Distances: Tamil Nadu Tourism (Pykara about 20–22 km, falls to lake 2 km; 9th Mile 14.5 km via tourdeooty) and Google Maps estimates, checked 22–23 Nov, not guaranteed hill-road conditions.</p>'}
+ costs:{t:'Costs at a glance',h:'<p><b>Toy train ×2:</b> booked, paid already.</p><p><b>Buses both ways ×2:</b> return Asian adjacent upper pair ₹2,490 or lower pair ₹2,590 before fees. Outbound pair total and refund add-ons are not yet verified.</p><p><b>Stay Dec 9–12:</b> 3 nights; set the Airbnb dates before booking.</p><p class="sh-credit">Not the whole-trip total: stay, cabs/autos, meals, entries and boating are extra. Food budgets are estimates; entry prices are listings to reconfirm at the counter.</p>'},
+ book:{t:'Still to book',h:'<p><b>Buses:</b> pick one each way in the 8 Dec out and 12 Dec night back. Not booked yet.</p><p><b>Airbnb:</b> set dates to Dec 9–12; ask the host about early bag drop on the 9th and keeping bags till evening on the 12th.</p><p><b>Scooter:</b> preferred for local trips; rental and fitness to ride still need checking. Cabs are a fallback, not included in the budget.</p>'},
+ know:{t:'Good to know',h:'<p>Pack warm layers for hill mornings and nights. Check the forecast closer to departure.</p><p>Re-check train 56143 on IRCTC a day before; hill trains can change.</p><p>Hill paths, boat boarding and garden slopes are uneven in places: cabs and autos over long walks, and skip any stretch that feels like too much.</p><p>Distances and drive times are calm-traffic estimates measured from the town centre; where your stay is shifts them a little.</p><p>Highfield asks for an advance visit reservation; confirm before the Coonoor morning. All activity windows are suggestions, not appointments.</p>'},
+ src:{t:'Sources & freshness',h:'<p>Place photos and entry listings: Ooty Tourism, linked on each place. Charing Cross photo: Wikimedia Commons (CC BY-SA 3.0). Highfield ticket pages checked 22 Nov 2026 (₹50 adult / ₹150 special). Sim\'s Park and Rose Garden fees from Ooty Tourism pages (₹75 adult each). Tea flavours: Tamil Nadu Tourism.</p><p>Café and dinner: Littlearth official venue pages and menus; <a href="https://www.newindianexpress.com/xplore/2024/Jun/06/eating-your-way-through-ooty">New Indian Express food guide</a>; <a href="https://timesofindia.indiatimes.com/travel/ooty/earls-secret/ps33024535.cms">Times Travel on Earl\'s Secret</a>. No table or cake arranged.</p><p>Buses: outbound listings 22 Nov; return pair fares and Majestic drop checked on redBus 24 Nov 2026. Scheduled arrival is not guaranteed. Distances: Tamil Nadu Tourism (Pykara about 20–22 km, falls to lake 2 km; 9th Mile 14.5 km via tourdeooty) and Google Maps estimates, checked 22–23 Nov, not guaranteed hill-road conditions.</p>'}
 };
-function openDayInfo(dayId){
-  const d=days.find(x=>x.id===dayId);if(!d)return;
-  openSheet(`<div class="sheet-body"><div class="sh-kick">${esc(d.dow+' '+d.num)}</div><h3>${esc(d.title)}</h3><p>${esc(d.note)}</p></div>`);
-}
-
-function openNote(key){
-  const n=NOTES[key];if(!n)return;
-  openSheet(`<div class="sheet-body"><h3>${n.t}</h3>${n.h}</div>`);
-}
-
-/* photo card */
-function stopCard(st,dayId,isExtra,inPlan){
-  const card=document.createElement('article');
-  card.className='card';
-  card.dataset.sid=st.id;card.dataset.day=dayId;card.dataset.open='1';
-  const badge=st.number?`<span class="num">${st.number}</span>`:`<span class="num letter">${st.letter}</span>`;
-  const add=isExtra?`<button class="addbtn ${inPlan?'added':''}" data-add="${st.id}">${inPlan?'Added ✓':'+ Add'}</button>`:'';
-  const legLine=st.dur?`<span class="cm2">${esc(st.dur)} there${st.leg?(' → '+esc(st.leg)):''}</span>`:'';
-  card.innerHTML=`
-    <img src="${IMGS[st.id]}" alt="${esc(st.alt)}" loading="lazy">
-    <div class="shade"></div>
-    ${badge}${add}
-    <div class="cinfo">
-      <span class="ct">${esc(st.title)}</span>
-      <span class="cm">${esc(st.time)} · ${esc(st.costShort)}</span>
-      ${legLine}
-    </div>`;
-  return card;
-}
-
-function renderDay(d){
-  const sec=document.createElement('section');
-  sec.className='day'+(state.day===d.id?' on':'');
-  sec.id='day-'+d.id;
-  sec.innerHTML=`<div class="day-head">
-    <span class="date-badge"><span class="dow">${d.dow}</span><span class="num">${d.num}</span></span>
-    <h2>${esc(d.title)}</h2>
-    <button class="iday" data-dayinfo="${d.id}" aria-label="Day details">i</button></div>`;
-
-  if(d.type==='options'){
-    const wrap=document.createElement('div');
-    d.options.forEach(o=>{
-      const picked=state.picks[d.leg]===o.number;
-      const el=document.createElement('div');
-      el.className='opt'+(picked?' picked':'');
-      el.innerHTML=`<span class="onum">${o.number}</span>
-        <div class="omain">
-          <div class="ot">${esc(o.title)}${o.rec?'<span class="rec">Recommended</span>':''}</div>
-          ${o.facts.map(f=>`<div class="om">${esc(f)}</div>`).join('')}
-          <div class="op">${esc(o.price)} <small>${esc(o.per)}</small></div>
-        </div>
-        <button class="pick" data-pick="${d.leg}:${o.number}">${picked?'Picked ✓':'Pick'}</button>`;
-      wrap.appendChild(el);
-    });
-    sec.appendChild(wrap);
-    const sn=document.createElement('p');sn.className='src-note';sn.innerHTML=d.src;sec.appendChild(sn);
-  }else{
-    const addedExtras=(d.extras||[]).filter(x=>state.extras[x.id]);
-    const stops=d.stops.slice();
-    addedExtras.forEach(x=>stops.splice(Math.min(x.slot,stops.length),0,x));
-    stops.forEach(st=>sec.appendChild(stopCard(st,d.id,!!st.letter,!!st.letter)));
-    if(d.banner){
-      const b=document.createElement('button');b.className='gohome';b.dataset.goto='back';
-      b.innerHTML=`<span class="m">Then: 7:45 pm sleeper bus home · ₹1,149</span><span class="arr">→</span>`;
-      sec.appendChild(b);
-    }
-    const pending=(d.extras||[]).filter(x=>!state.extras[x.id]);
-    if(pending.length){
-      const h=document.createElement('div');h.className='extras-title';
-      h.textContent='Add if you want to cover more';
-      sec.appendChild(h);
-      pending.forEach(x=>sec.appendChild(stopCard(x,d.id,true,false)));
-    }
-  }
-  return sec;
-}
-
-function renderPills(){
-  pillsEl.innerHTML='';
-  days.forEach(d=>{
-    const b=document.createElement('button');
-    b.className='pill'+(state.day===d.id?' on':'');
-    b.innerHTML=`${d.dow} ${d.num}<small>${esc(d.chip)}</small>`;
-    b.onclick=()=>{state.day=d.id;save();render();window.scrollTo({top:0});};
-    pillsEl.appendChild(b);
-  });
-}
-
-function renderPicked(){
-  const el=document.getElementById('pickedLine');
-  const parts=[];
-  ['go','back'].forEach(leg=>{
-    const n=state.picks[leg];
-    if(n!=null){const d=days.find(x=>x.leg===leg);const o=d.options.find(y=>y.number===n);
-      parts.push((leg==='go'?'Go':'Return')+': '+o.title+' ('+o.price+')');}
-  });
-  const added=Object.keys(state.extras).filter(k=>state.extras[k]).length;
-  if(added)parts.push(added+' extra stop'+(added>1?'s':'')+' added');
-  el.textContent=parts.length?('Your picks · '+parts.join(' · ')):'';
-  el.className='picked-line'+(parts.length?' on':'');
-}
-
-function render(){
-  renderPills();
-  mainEl.innerHTML='';
-  days.forEach(d=>mainEl.appendChild(renderDay(d)));
-  renderPicked();
-}
-
-mainEl.addEventListener('click',e=>{
-  const add=e.target.closest('[data-add]');
-  if(add){e.stopPropagation();const id=add.dataset.add;
-    state.extras[id]=!state.extras[id];if(!state.extras[id])delete state.extras[id];
-    save();render();return;}
-  const pick=e.target.closest('[data-pick]');
-  if(pick){const [leg,n]=pick.dataset.pick.split(':');
-    const num=parseInt(n,10);
-    if(state.picks[leg]===num)delete state.picks[leg];else state.picks[leg]=num;
-    save();render();return;}
-  const di=e.target.closest('[data-dayinfo]');
-  if(di){openDayInfo(di.dataset.dayinfo);return;}
-  const go=e.target.closest('[data-goto]');
-  if(go){state.day=go.dataset.goto;save();render();window.scrollTo({top:0});return;}
-  const open=e.target.closest('[data-open]');
-  if(open){openStop(open.dataset.day,open.dataset.sid);return;}
-});
-document.querySelector('.fine').addEventListener('click',e=>{
-  const nb=e.target.closest('[data-note]');
-  if(nb)openNote(nb.dataset.note);
-});
-wrapEl.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeSheet();});
-
-render();
-</script>
-</body>
-</html>
+let state={day:'d9',picks:{},extras:{},skip:{}};try{Object.assign(state,JSON.parse(localStorage.getItem('ooty-v1')||'{}'));}catch(e){}if(!state.day.startsWith('d'))state.day='d9';state.skip=state.skip||{};let section='plan',leg='back',lastFocus;
+const titles={d9:['Birthday, unhurried.','Town · chocolates · dinner'],d10:['Tea trails & toy trains.','Coonoor · booked train · lake'],d11:['Above the clouds.','Peak · garden · café'],d12:['One last stretch of green.','Pykara · night bus home']};
+const starts={d9:'Morning: breakfast, bag drop & rest. Bus arrival depends on the service booked.',d10:'Leave town 8:45 am → Highfield · 23 km / ~1 hr',d11:'Leave town 8:30 am → Doddabetta · 10 km / ~30 min',d12:'Check out & store bags if agreed. Leave 9 am → 9th Mile · 14.5 km / ~35 min'};
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML}function save(){try{localStorage.setItem('ooty-v1',JSON.stringify(state))}catch(e){}}
+days.find(d=>d.id==='go').options=days.find(d=>d.id==='go').options.filter(o=>o.number===1);
+function render(){document.getElementById('heroImg').src=IMGS.wenlock;document.getElementById('days').innerHTML=days.filter(d=>d.stops).map(d=>`<button class="day-btn ${state.day===d.id?'active':''}" onclick="setDay('${d.id}')" aria-pressed="${state.day===d.id}">${d.dow.toUpperCase()}<strong>${d.num}</strong>${d.chip}</button>`).join('');const d=days.find(d=>d.id===state.day), t=titles[d.id];let stops=d.stops.slice();(d.extras||[]).filter(s=>state.extras[s.id]).forEach(s=>stops.splice(Math.min(s.slot,stops.length),0,s));document.getElementById('itinerary').innerHTML=`<div class="day-top"><div><span class="eyebrow">${t[1]}</span><h2>${t[0]}</h2></div><button class="round" aria-label="Day timing and route" onclick="dayInfo()">↗</button></div><div class="route-intro">${esc(starts[d.id])}<br><small>Road legs are town-centre estimates.</small></div>`+stops.map(s=>`<article class="stop ${state.skip[s.id]?'skipped':''}" role="button" tabindex="0" onclick="showStop('${s.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showStop('${s.id}')}" aria-label="Details for ${esc(s.title)}"><img loading="lazy" src="${IMGS[s.id]}" alt="${esc(s.alt)}"><span class="number">${s.number||s.letter}</span><div class="body"><div class="time">${esc(s.time)}</div><h3>${esc(s.title)}</h3><div class="category">${state.skip[s.id]?'Skipped · tap to restore':esc(s.dur)+' there'+(s.id==='train'?' · Booked ✓':'')}</div></div><span class="chevron">›</span></article>${s.leg?`<div class="leg">↳ ${esc(s.leg)}</div>`:''}`).join('')+(d.banner?`<button class="banner" onclick="setLeg('back');setPanel('buses')"><span>Sat 12 · night bus home<small>20:30 out → Majestic 07:00 Sun 13</small></span><span>↗</span></button>`:'')+`<details class="extras"><summary>Optional extras · ${(d.extras||[]).length} ideas</summary>${(d.extras||[]).map(s=>`<div class="extra"><img loading="lazy" src="${IMGS[s.id]}" alt="${esc(s.alt)}"><div><button style="background:transparent;padding:0;text-align:left" onclick="showStop('${s.id}')">${esc(s.title)}</button><small>${esc(s.time)}</small></div><button class="smallbtn" onclick="toggleExtra('${s.id}')">${state.extras[s.id]?'Remove':'＋ Add'}</button></div>`).join('')}</details>`;renderBuses();}
+function setDay(id){state.day=id;save();render()}function setLeg(id){leg=id;renderBuses()}function setPanel(id){section=id;document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('[data-panel]').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));window.scrollTo(0,0)}
+function renderBuses(){document.getElementById('outTab').classList.toggle('active',leg==='go');document.getElementById('backTab').classList.toggle('active',leg==='back');const d=days.find(d=>d.leg===leg);document.getElementById('busList').innerHTML=`<span class="eyebrow">${leg==='back'?'Saturday night → Sunday morning':'Tuesday night → Wednesday morning'}</span><h2>${leg==='back'?'Home, after a full last day.':'Sleep your way to the hills.'}</h2><div class="notice">${leg==='back'?'Your target: Majestic at 7–8 am. Asian Xpress lists 07:00. Nothing booked.':'Departure 8 Dec night. Nothing booked. Fares below are earlier listings, not a current quote.'}</div>`+d.options.map(o=>`<article class="bus"><span class="eyebrow">${o.rec?'Suggested pick':'Alternative'} · option ${o.number}</span><h3>${esc(o.title)}</h3><div class="row"><div class="fare">${esc(o.price)}<small>${esc(o.per)}</small></div><button class="smallbtn" onclick="pickBus('${d.leg}',${o.number})">${state.picks[d.leg]===o.number?'Saved ✓':'Save pick'}</button></div><details><summary>Arrival, refund & fare details</summary>${o.facts.map(f=>`<p>${esc(f)}</p>`).join('')}</details></article>`).join('')+`<p class="muted">${d.src}</p><p class="muted">Saving a pick is not a booking. Check the exact berth pair, final total, drop-off and cancellation deadline before paying.</p>`;}
+function pickBus(l,n){state.picks[l]===n?delete state.picks[l]:state.picks[l]=n;save();renderBuses()}function toggleExtra(id){state.extras[id]=!state.extras[id];save();render()}function toggleSkip(id){state.skip[id]=!state.skip[id];save();render();closeModal()}
+function showModal(html){lastFocus=document.activeElement;document.getElementById('modalBody').innerHTML=html;document.getElementById('modal').hidden=false;document.body.style.overflow='hidden';document.querySelector('.sheet').scrollTop=0;document.querySelector('.close').focus()}
+function closeModal(){document.getElementById('modal').hidden=true;document.body.style.overflow='';if(lastFocus&&document.contains(lastFocus))lastFocus.focus()}
+function showStop(id){const d=days.find(d=>[...(d.stops||[]),...(d.extras||[])].some(s=>s.id===id));const s=[...(d.stops||[]),...(d.extras||[])].find(s=>s.id===id);showModal(`<img src="${IMGS[id]}" alt="${esc(s.alt)}"><div class="sheet-content"><span class="eyebrow">${d.dow} ${d.num} Dec · ${s.number?'Stop '+s.number:'Optional extra'}</span><h2>${esc(s.title)}</h2><div class="meta">${esc(s.time)} · ${esc(s.dur)}</div>${s.id==='train'?'<div class="train-ticket"><b>12:35 → 13:45</b><small>Coonoor → Ooty · 56143<br>First Class · confirmed ×2<br>Reach the station by 12:15 pm · photo ID each</small></div>':''}<p>${esc(s.why)}</p><p><b>${esc(s.cost)}</b></p>${s.leg?`<p>Next → ${esc(s.leg)}</p>`:''}<details><summary class="muted">Practical notes</summary><p>${esc(s.detail)}</p></details><div class="sheet-actions">${s.map?`<a target="_blank" rel="noopener" href="${s.map}">Open map ↗</a>`:''}<a href="${s.url}" target="_blank" rel="noopener">Source ↗</a>${s.id==='train'?'':s.letter?`<button onclick="toggleExtra('${id}');closeModal()">${state.extras[id]?'Remove extra':'Add to day'}</button>`:`<button onclick="toggleSkip('${id}')">${state.skip[id]?'Restore stop':'Skip stop'}</button>`}</div><p class="credit">${esc(s.credit)}</p></div>`)}
+function dayInfo(){const d=days.find(d=>d.id===state.day);showModal(`<div class="sheet-content"><span class="eyebrow">${d.dow} ${d.num} December</span><h2>Timing & route</h2><p>${esc(d.note)}</p><p class="credit">Road distances and times are estimates from Ooty town centre. Final hotel location and traffic change them.</p></div>`)}function showNote(id){const n=NOTES[id];showModal(`<div class="sheet-content"><h2>${n.t}</h2>${n.h}</div>`)}document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>setPanel(b.dataset.panel));document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Tab'&&!document.getElementById('modal').hidden){const a=[...document.querySelector('.sheet').querySelectorAll('button,a,summary')].filter(e=>e.getClientRects().length);if(e.shiftKey&&document.activeElement===a[0]){e.preventDefault();a.at(-1).focus()}else if(!e.shiftKey&&document.activeElement===a.at(-1)){e.preventDefault();a[0].focus()}}});render();
+</script></body></html>
